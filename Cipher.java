@@ -66,6 +66,45 @@ public class Cipher{
 	return etext;
     }
 
+    //Deciphers a method encrypted with teh above method
+    //UNFINISHED
+    public static String decipher(String text, int shift){
+	String etext = "";
+	shift = -shift;
+
+	
+	if(shift % 26 == 0){
+	    return text;
+	}
+
+	for(int p = 0; p < text.length(); p++){
+	    if(text.substring(p, p + 1).equals(" ")){
+		etext = etext + " ";
+	    }
+	    //System.out.println(originalText.substring(p, p + 1));
+	    for(int i = 0; i < 26 + shift; i++){
+		if(text.charAt(p) == (alphabet[i])){
+		    etext = etext + alphabet[i + shift];
+		    //System.out.println(encryptedText);
+		}
+		if(text.charAt(p) == (alphabet[25])){
+		    etext = etext + alphabet[-1 + shift];
+		    //System.out.println(encryptedText);
+		}
+		if(text.charAt(p) == (ALPHABET[i])){
+		    etext = etext + ALPHABET[i + shift];
+		    //System.out.println(encryptedText);
+		}
+		if(text.charAt(p) == (ALPHABET[25])){
+		    etext = etext + ALPHABET[-1 + shift];
+		    //System.out.println(encryptedText);
+		}
+	    }
+	}
+
+	return etext;
+    }
+
     public static void main(String[]args){
 	/*
 	getText("cipher.txt");
@@ -84,6 +123,9 @@ public class Cipher{
 	System.out.println(getText(args[0]));
 	System.out.println("==================================================");
 	encryptedText = cipher(getText(args[0]), Integer.parseInt(args[1]));	
+	System.out.println(encryptedText);
+	System.out.println("==================================================");
+	decipher(encryptedText, Integer.parseInt(args[1]));
 	System.out.println(encryptedText);
     }
 }
