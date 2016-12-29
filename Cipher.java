@@ -122,10 +122,20 @@ public class Cipher{
 
 	System.out.println(getText(args[0]));
 	System.out.println("==================================================");
-	encryptedText = cipher(getText(args[0]), Integer.parseInt(args[1]));	
-	System.out.println(encryptedText);
-	System.out.println("==================================================");
-	decipher(encryptedText, Integer.parseInt(args[1]));
-	System.out.println(encryptedText);
+	encryptedText = cipher(getText(args[0]), Integer.parseInt(args[1]));
+	
+	//Write the encrypted text to a text file in the same folder
+	try{
+	    PrintWriter writer = new PrintWriter("Encrypted.txt", "UTF-8");
+	    writer.println(encryptedText);
+	    writer.close();
+	} catch (IOException e) {
+	    System.exit(1);
+	}
+	
+	//System.out.println(encryptedText);
+	//System.out.println("==================================================");
+	//decipher(encryptedText, Integer.parseInt(args[1]));
+	//System.out.println(encryptedText);
     }
 }
