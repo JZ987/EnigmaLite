@@ -20,7 +20,7 @@ public class Cipher{
 	    Scanner in = new Scanner(new File(file));
 	    for(int p = 0; in.hasNext(); p++){
 		String word = in.next();
-		originalText = originalText + " " + word + " ";
+		originalText += word + " ";
 	    }
 	}catch(FileNotFoundException e){
 	    System.out.println("Invalid filename or path");
@@ -30,48 +30,41 @@ public class Cipher{
 	return originalText;
      }
 
+    
     public static String cipher(String text, int shift){
 	String etext = "";
 
-	
 	if(shift % 26 == 0){
 	    return text;
 	}
 
 	for(int p = 0; p < text.length(); p++){
-	    if(text.substring(p, p + 1).equals(" ")){
-		etext = etext + " ";
-	    }
 	    //System.out.println(originalText.substring(p, p + 1));
-	    for(int i = 0; i < 26 - shift; i++){
-		if(text.charAt(p) == (alphabet[i])){
-		    etext = etext + alphabet[i + shift];
+	    for(int i = 0; i < 26; i++){
+		if(text.charAt(p) != alphabet[i] && text.charAt(p) != ALPHABET[i]){
+		    etext += text.charAt(p);
+		    break;
+		}
+		if(text.charAt(p) == alphabet[i]){
+		    etext += alphabet[(i+shift)%26];
+		    break;
 		    //System.out.println(encryptedText);
 		}
-		if(text.charAt(p) == (alphabet[25])){
-		    etext = etext + alphabet[-1 + shift];
-		    //System.out.println(encryptedText);
-		}
-		if(text.charAt(p) == (ALPHABET[i])){
-		    etext = etext + ALPHABET[i + shift];
-		    //System.out.println(encryptedText);
-		}
-		if(text.charAt(p) == (ALPHABET[25])){
-		    etext = etext + ALPHABET[-1 + shift];
+		if(text.charAt(p) == ALPHABET[i]){
+		    etext += ALPHABET[(i+shift)%26];
+		    break;
 		    //System.out.println(encryptedText);
 		}
 	    }
 	}
-
 	return etext;
     }
 
+    
     //Deciphers a method encrypted with teh above method
     //UNFINISHED
     public static String decipher(String text, int shift){
-	String etext = "";
-	shift = -shift;
-
+	String detext = "";
 	
 	if(shift % 26 == 0){
 	    return text;
@@ -79,30 +72,31 @@ public class Cipher{
 
 	for(int p = 0; p < text.length(); p++){
 	    if(text.substring(p, p + 1).equals(" ")){
-		etext = etext + " ";
+		detext += " ";
 	    }
 	    //System.out.println(originalText.substring(p, p + 1));
-	    for(int i = 0; i < 26 + shift; i++){
-		if(text.charAt(p) == (alphabet[i])){
-		    etext = etext + alphabet[i + shift];
+	    for(int i = 0; i < 26; i++){
+		if(text.charAt(p) == alphabet[i]){
+		    if(i - shift <= 0){
+			detext += alphabet[26 + (i-shift)];
+		    }else{
+			detext += alphabet[i - shift];
+		    }
 		    //System.out.println(encryptedText);
-		}
-		if(text.charAt(p) == (alphabet[25])){
-		    etext = etext + alphabet[-1 + shift];
+		}else if(text.charAt(p) == ALPHABET[i]){
+		    if(i - shift <= 0){
+			detext += ALPHABET[26 + (i-shift)];
+		    }else{
+			detext += ALPHABET[i - shift];
+		    }
 		    //System.out.println(encryptedText);
-		}
-		if(text.charAt(p) == (ALPHABET[i])){
-		    etext = etext + ALPHABET[i + shift];
-		    //System.out.println(encryptedText);
-		}
-		if(text.charAt(p) == (ALPHABET[25])){
-		    etext = etext + ALPHABET[-1 + shift];
-		    //System.out.println(encryptedText);
+		}else{
+		    detext += text.charAt(p);
 		}
 	    }
 	}
 
-	return etext;
+	return detext;
     }
 
     public static void main(String[]args){
@@ -120,10 +114,14 @@ public class Cipher{
 	System.out.println(encryptedText);
 	*/
 
-	System.out.println(getText(args[0]));
-	System.out.println("==================================================");
-	encryptedText = cipher(getText(args[0]), Integer.parseInt(args[1]));
+	String code = getText(args[0]);
 	
+	System.out.println(code);
+	System.out.println("==================================================");
+	encryptedText = cipher(code, Integer.parseInt(args[1]));
+
+	System.out.println(encryptedText);
+
 	//Write the encrypted text to a text file in the same folder
 	try{
 	    PrintWriter writer = new PrintWriter("Encrypted.txt", "UTF-8");
@@ -132,6 +130,10 @@ public class Cipher{
 	} catch (IOException e) {
 	    System.exit(1);
 	}
+
+	//String decryptedCode = decipher(encryptedText, Integer.parseInt(args[1]));
+
+	//System.out.println(decryptedCode);
 	
 	//System.out.println(encryptedText);
 	//System.out.println("==================================================");
