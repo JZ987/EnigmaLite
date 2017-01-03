@@ -33,7 +33,7 @@ public class Cipher{
     
     public static String cipher(String text, int shift){
 	String etext = "";
-
+	int current = -1;
 	if(shift % 26 == 0){
 	    return text;
 	}
@@ -41,20 +41,22 @@ public class Cipher{
 	for(int p = 0; p < text.length(); p++){
 	    //System.out.println(originalText.substring(p, p + 1));
 	    for(int i = 0; i < 26; i++){
-		if(text.charAt(p) != alphabet[i] && text.charAt(p) != ALPHABET[i]){
-		    etext += text.charAt(p);
-		    break;
-		}
 		if(text.charAt(p) == alphabet[i]){
 		    etext += alphabet[(i+shift)%26];
+		    current++;
 		    break;
 		    //System.out.println(encryptedText);
 		}
 		if(text.charAt(p) == ALPHABET[i]){
 		    etext += ALPHABET[(i+shift)%26];
+		    current++;
 		    break;
 		    //System.out.println(encryptedText);
 		}
+	    }
+	    if(current != p){
+		etext += text.charAt(p);
+		current++;
 	    }
 	}
 	return etext;
@@ -65,34 +67,38 @@ public class Cipher{
     //UNFINISHED
     public static String decipher(String text, int shift){
 	String detext = "";
-	
+	int current = -1;
 	if(shift % 26 == 0){
 	    return text;
 	}
 
 	for(int p = 0; p < text.length(); p++){
-	    if(text.substring(p, p + 1).equals(" ")){
-		detext += " ";
-	    }
 	    //System.out.println(originalText.substring(p, p + 1));
 	    for(int i = 0; i < 26; i++){
 		if(text.charAt(p) == alphabet[i]){
-		    if(i - shift <= 0){
+		    if(i - shift < 0){
 			detext += alphabet[26 + (i-shift)];
 		    }else{
 			detext += alphabet[i - shift];
 		    }
+		    current++;
+		    break;
 		    //System.out.println(encryptedText);
-		}else if(text.charAt(p) == ALPHABET[i]){
-		    if(i - shift <= 0){
+		}
+		if(text.charAt(p) == ALPHABET[i]){
+		    if(i - shift < 0){
 			detext += ALPHABET[26 + (i-shift)];
 		    }else{
 			detext += ALPHABET[i - shift];
 		    }
+		    current++;
+		    break;
 		    //System.out.println(encryptedText);
-		}else{
-		    detext += text.charAt(p);
 		}
+	    }
+	    if(current != p){
+		detext += text.charAt(p);
+		current++;
 	    }
 	}
 
@@ -131,9 +137,11 @@ public class Cipher{
 	    System.exit(1);
 	}
 
-	//String decryptedCode = decipher(encryptedText, Integer.parseInt(args[1]));
+	System.out.println("==================================================");
+	
+	String decryptedCode = decipher(encryptedText, Integer.parseInt(args[1]));
 
-	//System.out.println(decryptedCode);
+	System.out.println(decryptedCode);
 	
 	//System.out.println(encryptedText);
 	//System.out.println("==================================================");
