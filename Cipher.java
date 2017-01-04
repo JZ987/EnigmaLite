@@ -37,7 +37,7 @@ public class Cipher{
      }
 
     //Enciphers that data in the originalText variable
-    /*public static void cipher(){
+    public static void cipher(){
 	String etext = "";
 	
 	if(shift % 26 == 0){
@@ -51,25 +51,33 @@ public class Cipher{
 		etext = etext + " ";
 	    }
 	    
-	    //System.out.println(originalText.substring(p, p + 1));
+	    System.out.println(originalText.substring(p, p + 1));
 
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
 	    for(int i = 0; i < 26 - shift; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
 		    etext = etext + alphabet[(i + shift) % 26];
-		    //System.out.println(etext);
+		    System.out.println(etext);
+		    break;
 		}
 		if(originalText.charAt(p) == (ALPHABET[i])){
 		    etext = etext + ALPHABET[(i + shift) % 26];
-		    //System.out.println(etext);
+		    System.out.println(etext);
+		    break;
+		}
+		else{
+		    etext = etext + originalText.charAt(p);
+		    break;
 		}
 	    }
 	}
 	encryptedText = etext;
-    }*/
+    }
 
-        public static String cipher(String text, int shift){
+    //Alternate cipher method
+    /*
+    public static String cipher(String text, int shift){
 	String etext = "";
 	int current = -1;
 	if(shift % 26 == 0){
@@ -99,10 +107,11 @@ public class Cipher{
 	}
 	return etext;
     }
+    */
 
     
     //Deciphers a method encrypted with the above method
-    public static void decipher(String text, int shift){
+    public static void decipher(){
 	String detext = "";
 	int current = -1;
 
@@ -119,7 +128,7 @@ public class Cipher{
 		    break;
 		    //System.out.println(encryptedText);
 		}
-		if(text.charAt(p) == ALPHABET[i]){
+		if(encryptedText.charAt(p) == ALPHABET[i]){
 		    if(i - shift < 0){
 			detext += ALPHABET[26 + (i-shift)];
 		    }else{
@@ -131,7 +140,7 @@ public class Cipher{
 		}
 	    }
 	    if(current != p){
-		detext += text.charAt(p);
+		detext = detext + encryptedText.charAt(p);
 		current++;
 	    }
 	}
@@ -165,20 +174,24 @@ public class Cipher{
 	if(selector.equals("decipher")){
 	    decipher();
 	}
-	
+
+	System.out.println("Original Text: ");
 	System.out.println(originalText);
 	System.out.println("==================================================");
+	System.out.println("Encrypted Text: ");
 	System.out.println(encryptedText);
 	System.out.println("==================================================");
+	System.out.println("Decrypted Text: ");
 	System.out.println(decryptedText);
     }
 
+    /*
     try{
-	    PrintWriter writer = new PrintWriter("Encrypted" + file, "UTF-8");
-	    writer.println(encryptedText);
-	    writer.close();
-	} catch (IOException e) {
-	    System.exit(1);
-	    
-	}
+	PrintWriter writer = new PrintWriter("Encrypted" + file, "UTF-8");
+	writer.println(encryptedText);
+	writer.close();
+    } catch (IOException e) {
+	System.exit(1);	    
+    }
+    */
 }
