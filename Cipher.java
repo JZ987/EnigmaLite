@@ -39,6 +39,7 @@ public class Cipher{
     //Enciphers that data in the originalText variable
     public static void cipher(){
 	String etext = "";
+	int switched = 0;
 	
 	if(shift % 26 == 0){
 	    encryptedText = originalText;
@@ -50,26 +51,28 @@ public class Cipher{
 	    if(originalText.substring(p, p + 1).equals(" ")){
 		etext = etext + " ";
 	    }
-	    
-	    System.out.println(originalText.substring(p, p + 1));
 
+	    //resets the switched checker
+	    switched = 0;
+	    	    
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
-	    for(int i = 0; i < 26 - shift; i++){
+	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
 		    etext = etext + alphabet[(i + shift) % 26];
-		    System.out.println(etext);
-		    break;
+		    switched = 26;
 		}
+	    }
+
+	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (ALPHABET[i])){
 		    etext = etext + ALPHABET[(i + shift) % 26];
-		    System.out.println(etext);
-		    break;
-		}
-		else{
-		    etext = etext + originalText.charAt(p);
-		    break;
-		}
+		    switched = 26;
+			}
+	    }
+	    
+	    if(switched == 0){
+		etext = etext + originalText.charAt(p);
 	    }
 	}
 	encryptedText = etext;
