@@ -41,7 +41,7 @@ public class Cipher{
 	String etext = "";
 	int switched = 0;
 	
-	if(shift % 26 == 0){
+	if(shift == 0){
 	    encryptedText = originalText;
 	    return;
 	}
@@ -70,7 +70,8 @@ public class Cipher{
 		    switched = 26;
 			}
 	    }
-	    
+
+	    //returns punctuation
 	    if(switched == 0){
 		etext = etext + originalText.charAt(p);
 	    }
@@ -78,76 +79,50 @@ public class Cipher{
 	encryptedText = etext;
     }
 
-    //Alternate cipher method
-    /*
-    public static String cipher(String text, int shift){
-	String etext = "";
-	int current = -1;
-	if(shift % 26 == 0){
-	    return text;
-	}
-
-	for(int p = 0; p < text.length(); p++){
-	    //System.out.println(originalText.substring(p, p + 1));
-	    for(int i = 0; i < 26; i++){
-		if(text.charAt(p) == alphabet[i]){
-		    etext += alphabet[(i+shift)%26];
-		    current++;
-		    break;
-		    //System.out.println(encryptedText);
-		}
-		if(text.charAt(p) == ALPHABET[i]){
-		    etext += ALPHABET[(i+shift)%26];
-		    current++;
-		    break;
-		    //System.out.println(encryptedText);
-		}
-	    }
-	    if(current != p){
-		etext += text.charAt(p);
-		current++;
-	    }
-	}
-	return etext;
-    }
-    */
-
     
     //Deciphers a method encrypted with the above method
     public static void decipher(){
 	String detext = "";
-	int current = -1;
+	int switched = 0;
 
-	for(int p = 0; p < encryptedText.length(); p++){
-	    //System.out.println(originalText.substring(p, p + 1));
-	    for(int i = 0; i < 26; i++){
-		if(encryptedText.charAt(p) == alphabet[i]){
-		    if(i - shift < 0){
-			detext += alphabet[26 + (i-shift)];
-		    }else{
-			detext += alphabet[i - shift];
-		    }
-		    current++;
-		    break;
-		    //System.out.println(encryptedText);
-		}
-		if(encryptedText.charAt(p) == ALPHABET[i]){
-		    if(i - shift < 0){
-			detext += ALPHABET[26 + (i-shift)];
-		    }else{
-			detext += ALPHABET[i - shift];
-		    }
-		    current++;
-		    break;
-		    //System.out.println(encryptedText);
-		}
-	    }
-	    if(current != p){
-		detext = detext + encryptedText.charAt(p);
-		current++;
-	    }
+	shift = -1 * shift;
+
+	if(shift == 0){
+	    decryptedText = originalText;
+	    return;
 	}
 
+	for(int p = 0; p < originalText.length(); p++){
+	    //Returns spaces as spaces
+	    if(originalText.substring(p, p + 1).equals(" ")){
+		detext = detext + " ";
+	    }
+
+	    //resets the switched checker
+	    switched = 0;
+	    	    
+	    //Cycles through the alphabet arrays replacing each letter in the
+	    //text file
+	    for(int i = 0; (i + switched) < 26; i++){
+		if(originalText.charAt(p) == (alphabet[i])){
+		    detext = detext + alphabet[(i + shift) % 26];
+		    switched = 26;
+		}
+	    }
+
+	    for(int i = 0; (i + switched) < 26; i++){
+		if(originalText.charAt(p) == (ALPHABET[i])){
+		    detext = detext + ALPHABET[(i + shift) % 26];
+		    switched = 26;
+			}
+	    }
+
+	    //returns punctuation
+	    if(switched == 0){
+		detext = detext + originalText.charAt(p);
+	    }
+	}
+	
 	decryptedText = detext;
     }
 
