@@ -7,8 +7,6 @@ public class Cipher{
 
     public static char[] ALPHABET = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-    public static char[] punctuation = {};
-
     private static String originalText = "";
 
     private static String encryptedText = "";
@@ -30,7 +28,7 @@ public class Cipher{
 	    Scanner in = new Scanner(new File(file));
 	    for(int p = 0; in.hasNext(); p++){
 		String word = in.next();
-		originalText = originalText + " " + word + " ";
+		originalText += word + " ";
 	    }
 	}catch(FileNotFoundException e){
 	    System.out.println("Invalid filename or path");
@@ -39,7 +37,7 @@ public class Cipher{
      }
 
     //Enciphers that data in the originalText variable
-    public static void cipher(){
+    /*public static void cipher(){
 	String etext = "";
 	
 	if(shift % 26 == 0){
@@ -69,15 +67,44 @@ public class Cipher{
 	    }
 	}
 	encryptedText = etext;
-    }
+    }*/
 
-    //Deciphers a method encrypted with the above method
-    public static void decipher(){
-	String detext = "";
+        public static String cipher(String text, int shift){
+	String etext = "";
 	int current = -1;
 	if(shift % 26 == 0){
 	    return text;
 	}
+
+	for(int p = 0; p < text.length(); p++){
+	    //System.out.println(originalText.substring(p, p + 1));
+	    for(int i = 0; i < 26; i++){
+		if(text.charAt(p) == alphabet[i]){
+		    etext += alphabet[(i+shift)%26];
+		    current++;
+		    break;
+		    //System.out.println(encryptedText);
+		}
+		if(text.charAt(p) == ALPHABET[i]){
+		    etext += ALPHABET[(i+shift)%26];
+		    current++;
+		    break;
+		    //System.out.println(encryptedText);
+		}
+	    }
+	    if(current != p){
+		etext += text.charAt(p);
+		current++;
+	    }
+	}
+	return etext;
+    }
+
+    
+    //Deciphers a method encrypted with the above method
+    public static void decipher(String text, int shift){
+	String detext = "";
+	int current = -1;
 
 	for(int p = 0; p < encryptedText.length(); p++){
 	    //System.out.println(originalText.substring(p, p + 1));
