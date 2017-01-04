@@ -7,75 +7,82 @@ public class Cipher{
 
     public static char[] ALPHABET = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
+    public static char[] punctuation = {};
+
     private static String originalText = "";
 
     private static String encryptedText = "";
+
+    private static String decryptedText = "";
+
+    private static String file;
+
+    private static int shift;
+
+    private static String selector;
 
     //METHODS
 
     //Gets a string of text from a txt file
     //parses config file
-     public static String getText(String file){
+     public static void getText(){
 	try{
 	    Scanner in = new Scanner(new File(file));
 	    for(int p = 0; in.hasNext(); p++){
 		String word = in.next();
-		originalText += word + " ";
+		originalText = originalText + " " + word + " ";
 	    }
 	}catch(FileNotFoundException e){
 	    System.out.println("Invalid filename or path");
 	    System.exit(1);
 	}
-	    
-	return originalText;
      }
 
-    
-    public static String cipher(String text, int shift){
+    //Enciphers that data in the originalText variable
+    public static void cipher(){
 	String etext = "";
-	int current = -1;
+	
 	if(shift % 26 == 0){
-	    return text;
+	    encryptedText = originalText;
+	    return;
 	}
 
-	for(int p = 0; p < text.length(); p++){
-	    //System.out.println(originalText.substring(p, p + 1));
-	    for(int i = 0; i < 26; i++){
-		if(text.charAt(p) == alphabet[i]){
-		    etext += alphabet[(i+shift)%26];
-		    current++;
-		    break;
-		    //System.out.println(encryptedText);
-		}
-		if(text.charAt(p) == ALPHABET[i]){
-		    etext += ALPHABET[(i+shift)%26];
-		    current++;
-		    break;
-		    //System.out.println(encryptedText);
-		}
+	for(int p = 0; p < originalText.length(); p++){
+	    //Returns spaces as spaces
+	    if(originalText.substring(p, p + 1).equals(" ")){
+		etext = etext + " ";
 	    }
-	    if(current != p){
-		etext += text.charAt(p);
-		current++;
+	    
+	    //System.out.println(originalText.substring(p, p + 1));
+
+	    //Cycles through the alphabet arrays replacing each letter in the
+	    //text file
+	    for(int i = 0; i < 26 - shift; i++){
+		if(originalText.charAt(p) == (alphabet[i])){
+		    etext = etext + alphabet[(i + shift) % 26];
+		    //System.out.println(etext);
+		}
+		if(originalText.charAt(p) == (ALPHABET[i])){
+		    etext = etext + ALPHABET[(i + shift) % 26];
+		    //System.out.println(etext);
+		}
 	    }
 	}
-	return etext;
+	encryptedText = etext;
     }
 
-    
-    //Deciphers a method encrypted with teh above method
-    //UNFINISHED
-    public static String decipher(String text, int shift){
+    //Deciphers a method encrypted with the above method
+    public static void decipher(){
 	String detext = "";
 	int current = -1;
 	if(shift % 26 == 0){
 	    return text;
 	}
 
-	for(int p = 0; p < text.length(); p++){
+	for(int p = 0; p < encryptedText.length(); p++){
 	    //System.out.println(originalText.substring(p, p + 1));
 	    for(int i = 0; i < 26; i++){
-		if(text.charAt(p) == alphabet[i]){
+		if(encryptedText.charAt(p) == alphabet[i]){
 		    if(i - shift < 0){
 			detext += alphabet[26 + (i-shift)];
 		    }else{
@@ -102,50 +109,49 @@ public class Cipher{
 	    }
 	}
 
-	return detext;
+	decryptedText = detext;
     }
 
+    //MAIN
     public static void main(String[]args){
-	/*
-	getText("cipher.txt");
+	if((args.length != 2) && (args.length != 3)){
+	    throw new IllegalArgumentException("Missing or Incomplete Input");
+	}
+
+	if(Integer.parseInt(args[1]) < 0){
+	    shift = (Integer.parseInt(args[1]) % 26) + 26;
+	}
+	else{
+	    shift = Integer.parseInt(args[1]) % 26;
+	}
+
+	file = args[0];
+
+	selector = args[2];
+	
+	getText();
+
+	if(selector.equals("cipher")){
+	    cipher();
+	}
+
+	if(selector.equals("decipher")){
+	    decipher();
+	}
+	
 	System.out.println(originalText);
 	System.out.println("==================================================");
-	encryptedText = cipher(originalText, 1);
 	System.out.println(encryptedText);
 	System.out.println("==================================================");
-	encryptedText = cipher(originalText, 2);
-	System.out.println(encryptedText);
-	System.out.println("==================================================");
-	encryptedText = cipher(originalText, 3);
-	System.out.println(encryptedText);
-	*/
+	System.out.println(decryptedText);
+    }
 
-	String code = getText(args[0]);
-	
-	System.out.println(code);
-	System.out.println("==================================================");
-	encryptedText = cipher(code, Integer.parseInt(args[1]));
-
-	System.out.println(encryptedText);
-
-	//Write the encrypted text to a text file in the same folder
-	try{
-	    PrintWriter writer = new PrintWriter("Encrypted.txt", "UTF-8");
+    try{
+	    PrintWriter writer = new PrintWriter("Encrypted" + file, "UTF-8");
 	    writer.println(encryptedText);
 	    writer.close();
 	} catch (IOException e) {
 	    System.exit(1);
+	    
 	}
-
-	System.out.println("==================================================");
-	
-	String decryptedCode = decipher(encryptedText, Integer.parseInt(args[1]));
-
-	System.out.println(decryptedCode);
-	
-	//System.out.println(encryptedText);
-	//System.out.println("==================================================");
-	//decipher(encryptedText, Integer.parseInt(args[1]));
-	//System.out.println(encryptedText);
-    }
 }
