@@ -23,6 +23,7 @@ public class Cipher{
 
     //Gets a string of text from a txt file
     //parses config file
+    //Move to abstract class
      public static void getText(){
 	try{
 	    Scanner in = new Scanner(new File(file));
@@ -35,6 +36,16 @@ public class Cipher{
 	    System.exit(1);
 	}
      }
+
+     /*
+    try{
+	PrintWriter writer = new PrintWriter("Encrypted" + file, "UTF-8");
+	writer.println(encryptedText);
+	writer.close();
+    } catch (IOException e) {
+	System.exit(1);	    
+    }
+    */
 
     //Enciphers that data in the originalText variable
     public static void cipher(){
@@ -80,18 +91,16 @@ public class Cipher{
     }
 
     
-    //Deciphers a method encrypted with the above method
+    //Deciphers a method encrypted with the above method, reads an already
+    //encrypted originalText
     public static void decipher(){
 	String detext = "";
 	int switched = 0;
 
-	shift = -1 * shift;
-
-	if(shift == 0){
-	    decryptedText = originalText;
-	    return;
-	}
-
+	int temp;
+	temp = shift;
+	shift = 26 - temp;
+	
 	for(int p = 0; p < originalText.length(); p++){
 	    //Returns spaces as spaces
 	    if(originalText.substring(p, p + 1).equals(" ")){
@@ -122,8 +131,8 @@ public class Cipher{
 		detext = detext + originalText.charAt(p);
 	    }
 	}
-	
-	decryptedText = detext;
+        
+	decryptedText = originalText;
     }
 
     //MAIN
@@ -146,6 +155,7 @@ public class Cipher{
 	getText();
 
 	if(selector.equals("cipher")){
+
 	    cipher();
 	}
 
@@ -163,13 +173,5 @@ public class Cipher{
 	System.out.println(decryptedText);
     }
 
-    /*
-    try{
-	PrintWriter writer = new PrintWriter("Encrypted" + file, "UTF-8");
-	writer.println(encryptedText);
-	writer.close();
-    } catch (IOException e) {
-	System.exit(1);	    
-    }
-    */
+   
 }
