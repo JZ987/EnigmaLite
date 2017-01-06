@@ -5,6 +5,7 @@ public class Implementation{
     public Implementation(){
         encryptedText = "";
 	decryptedText = "";
+	originalText = "";
     }
 
     public static void getText(){
