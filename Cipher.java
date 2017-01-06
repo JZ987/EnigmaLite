@@ -97,10 +97,6 @@ public class Cipher{
 	String detext = "";
 	int switched = 0;
 
-	int temp;
-	temp = shift;
-	shift = 26 - temp;
-	
 	for(int p = 0; p < originalText.length(); p++){
 	    //Returns spaces as spaces
 	    if(originalText.substring(p, p + 1).equals(" ")){
@@ -114,14 +110,14 @@ public class Cipher{
 	    //text file
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
-		    detext = detext + alphabet[(i + shift) % 26];
+		    detext = detext + alphabet[26 - ((i + shift) % 26)];
 		    switched = 26;
 		}
 	    }
 
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (ALPHABET[i])){
-		    detext = detext + ALPHABET[(i + shift) % 26];
+		    detext = detext + ALPHABET[26 - ((i + shift) % 26)];
 		    switched = 26;
 			}
 	    }
@@ -132,7 +128,7 @@ public class Cipher{
 	    }
 	}
         
-	decryptedText = originalText;
+	decryptedText = detext;
     }
 
     //MAIN
