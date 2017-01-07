@@ -24,35 +24,6 @@ public class Cipher{
     
     //METHODS
 
-<<<<<<< HEAD
-=======
-    //Gets a string of text from a txt file
-    //parses config file
-    //Move to abstract class
-     public static void getText(){
-	try{
-	    Scanner in = new Scanner(new File(file));
-	    for(int p = 0; in.hasNext(); p++){
-		String word = in.next();
-		originalText += word + " ";
-	    }
-	}catch(FileNotFoundException e){
-	    System.out.println("Invalid filename or path");
-	    System.exit(1);
-	}
-     }
-
-     /*
-    try{
-	PrintWriter writer = new PrintWriter("Encrypted" + file, "UTF-8");
-	writer.println(encryptedText);
-	writer.close();
-    } catch (IOException e) {
-	System.exit(1);	    
-    }
-    */
-
->>>>>>> a896c9c3be8783114d8220fa54eee62ccf52a13f
     //Enciphers that data in the originalText variable
     /*public static void cipher(){
 	String etext = "";
@@ -96,12 +67,9 @@ public class Cipher{
 	encryptedText = etext;
 	}*/
 
-<<<<<<< HEAD
-    
-=======
+
     //Alternate cipher method
-    
-<<<<<<< HEAD
+
     public static void cipher(){
 	String etext = "";
 	String text = originalText;
@@ -136,12 +104,8 @@ public class Cipher{
     }
 
     /*
->>>>>>> Jack
-    //Deciphers a method encrypted with the above method
-=======
     //Deciphers a method encrypted with the above method, reads an already
     //encrypted originalText
->>>>>>> a896c9c3be8783114d8220fa54eee62ccf52a13f
     public static void decipher(){
 	String detext = "";
 	int switched = 0;
@@ -234,6 +198,6 @@ public class Cipher{
 	System.out.println("Decrypted Text: ");
 	System.out.println(decryptedText);
     }
-
+    */
    
 }
