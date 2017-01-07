@@ -1,33 +1,37 @@
 import java.util.*;
 
-public class Driver{
+public class Driver extends Implementation{
 
     private static Scanner sc;
-    private static final String CLEAR_SCREEN =  "\033[2J";
 
     private static void clearScreen(){
 	final String ANSI_CLS = "\u001b[2J";
         final String ANSI_HOME = "\u001b[H";
         System.out.print(ANSI_CLS + ANSI_HOME);
     }
-	
+
+    
+    
     private static void chooseOne(){
 	String choice = sc.next();	
 		
 	if(choice.equals("GUI")){
 	    System.out.println("GUI not currently available");
-	    System.out.println("Please choose either <GUI> or <terminal>");
+	    System.out.println("\nPlease choose either <GUI> or <terminal>");
 	    chooseOne();
 	}else if(choice.equals("terminal") || choice.equals("Terminal")){
 	    clearScreen();
-	    
+	    terminal();
 	}else{
-	    System.out.println("Please choose either <GUI> or <terminal>");
+	    System.out.println("\nPlease choose either <GUI> or <terminal>");
 	    chooseOne();
 	}
     }
-     
+    
+    
     public static void main(String[] args){
+
+	Implementation imp = new Implementation();
 	
 	sc = new Scanner(System.in);
 
@@ -37,7 +41,5 @@ public class Driver{
 	System.out.println("(GUI not currently available)");
 
 	chooseOne();
-
-
     }
 }
