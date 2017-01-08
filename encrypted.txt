@@ -1,1 +1,3 @@
-bcdefghijklmnopqrstuvwxyza --- BCDEFGHIJKLMNOPQRSTUVWXYZA
+bcdefghijklmnopqrstuvwxyza --- BCDEFGHIJKLMNOPQRSTUVWXYZA --- 
+cdefghijklmnopqrstuvqwxyzab --- CDEFGHIJKLMNOPQRSTUVWXYZAB --- 
+klmnopqrstuvwxyzabcdefghij

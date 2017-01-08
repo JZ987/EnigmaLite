@@ -7,6 +7,8 @@ public class Cipher{
 
     public static char[] ALPHABET = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
+    public static ArrayList skips;
+
     private static String originalText = "";
 
     private static String encryptedText = "";
@@ -19,6 +21,7 @@ public class Cipher{
 
     private static String selector;
 
+    private static String skip;
     //METHODS
 
     //Gets a string of text from a txt file
@@ -92,7 +95,9 @@ public class Cipher{
 
     
     //Deciphers a method encrypted with the above method, reads an already
-    //encrypted originalText
+    //encrypted originalText.
+    //Assumes the encrypted text is encrypted using the shift and skips
+    //recieved as parameters.
     public static void decipher(){
 	String detext = "";
 	int switched = 0;
@@ -110,14 +115,14 @@ public class Cipher{
 	    //text file
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
-		    detext = detext + alphabet[26 - ((i + shift) % 26)];
+		    detext = detext + alphabet[(i + (26 - shift)) % 26];
 		    switched = 26;
 		}
 	    }
 
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (ALPHABET[i])){
-		    detext = detext + ALPHABET[26 - ((i + shift) % 26)];
+		    detext = detext + ALPHABET[(i + (26 - shift)) % 26];
 		    switched = 26;
 			}
 	    }
@@ -133,7 +138,7 @@ public class Cipher{
 
     //MAIN
     public static void main(String[]args){
-	if((args.length != 2) && (args.length != 3)){
+	if((args.length != 2) && (args.length != 29)){
 	    throw new IllegalArgumentException("Missing or Incomplete Input");
 	}
 
@@ -147,6 +152,10 @@ public class Cipher{
 	file = args[0];
 
 	selector = args[2];
+
+	for(int i = 0; i < args.length - 2; i ++){
+	    skips.add(args[3 + i];
+	}
 	
 	getText();
 
