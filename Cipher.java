@@ -32,6 +32,17 @@ public class Cipher{
 
     public static char[] symbol = {'{', '`', '!', '[', '#', '$', '%', '^', '&', '*', '_', ')', '-', '(', '=', ',', '~', '+', '"', '@', '}', ';', '|', ']', ':' , '<', '.', '>', '/', '?'}; //missing \ '
 
+
+    public Cipher(String originalText, String encryptedText, String decryptedText, int shift, boolean swapDigits, boolean swapSymbols){
+	this.originalText = originalText;
+	this.encryptedText = encryptedText;
+	this.decryptedText = decryptedText;
+	this.shift = shift;
+	this.swapDigits = swapDigits;
+	this.swapSymbols = swapSymbols;
+	
+    }
+    
     //METHODS
 
     //Gets a string of text from a txt file
@@ -64,7 +75,7 @@ public class Cipher{
 	for(int p = 0; p < originalText.length(); p++){
 	    //Returns spaces as spaces
 	    if(originalText.substring(p, p + 1).equals(" ")){
-		etext = etext + " ";
+		etext += " ";
 	    }
 
 	    //resets the switched checker
@@ -109,7 +120,7 @@ public class Cipher{
 	    
 	    //Catches unswitched chars
 	    if(switched == 0){
-		etext = etext + originalText.charAt(p);
+		etext += originalText.charAt(p);
 	    }
 
 	}//ends the wrapping for loop
