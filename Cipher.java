@@ -88,21 +88,28 @@ public class Cipher{
 	    }
 
 	    //digits
-	    if(swapDigit && (switched != 26)){
-		for(int i = 0; (i < 10; i++){
+	    if(swapDigits && (switched != 26)){
+		for(int i = 0; i < 10; i++){
 		    if(originalText.charAt(p) == (digit[i])){
 			etext = etext + digit[(i + shift) % 10];
+			switched = 26;
 		    }
 		}
 	    }
 
 	    //symbols
-	    if(swapSymbol && (switched != 26)){
+	    if(swapSymbols && (switched != 26)){
 		for(int i = 0; i < 30; i++){
-		    if(originalText.charAt(p) == (symbols[i])){
-			etext = etext + symbols[(i + shift) % 30];
+		    if(originalText.charAt(p) == (symbol[i])){
+			etext = etext + symbol[(i + shift) % 30];
+			switched = 26;
 		    }
 		}
+	    }
+	    
+	    //Catches unswitched chars
+	    if(switched == 0){
+		etext = etext + originalText.charAt(p);
 	    }
 
 	}//ends the wrapping for loop
@@ -146,23 +153,30 @@ public class Cipher{
 	    }
 
 	    //digits
-	    if(swapDigit && (switched != 26)){
-		for(int i = 0; (i < 10; i++){
+	    if(swapDigits && (switched != 26)){
+		for(int i = 0; i < 10; i++){
 		    if(originalText.charAt(p) == (digit[i])){
-			etext = etext + digit[(i + (10 - shift)) % 10];
+			detext = detext + digit[(i + (10 - shift)) % 10];
+			switched = 26;
 		    }
 		}
 	    }
 
 	    //symbols
-	    if(swapSymbol && (switched != 26)){
+	    if(swapSymbols && (switched != 26)){
 		for(int i = 0; i < 30; i++){
-		    if(originalText.charAt(p) == (symbols[i])){
-			etext = etext + symbols[(i + (30 - shift)) % 30];
+		    if(originalText.charAt(p) == (symbol[i])){
+			detext = detext + symbol[(i + (30 - shift)) % 30];
+			switched = 26;
 		    }
 		}
 	    }
 
+	    //Catches unswitched chars
+	    if(switched == 0){
+		detext = detext + originalText.charAt(p);
+	    }
+	    
 	}//ends wrapping for loop
         
 	decryptedText = detext;
@@ -170,9 +184,12 @@ public class Cipher{
 
     //MAIN
     public static void main(String[]args){
-	if((args.length != 2) && (args.length != 29)){
+	if(args.length < 5){
 	    throw new IllegalArgumentException("Missing or Incomplete Input");
 	}
+
+	//commandline testing format:
+	//java Cipher file shift selector swapDigits swapSymbols
 
 	if(Integer.parseInt(args[1]) < 0){
 	    shift = (Integer.parseInt(args[1]) % 26) + 26;
@@ -185,9 +202,9 @@ public class Cipher{
 
 	selector = args[2];
 
-	for(int i = 0; i < args.length - 2; i ++){
-	    skips.add(args[3 + i]);
-	}
+	swapDigits = Boolean.parseBoolean(args[3]);
+
+	swapSymbols = Boolean.parseBoolean(args[4]);
 	
 	getText();
 
