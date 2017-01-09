@@ -29,9 +29,82 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
 public class Symmetric{
+
+    private static String algoType, originalText, encryptedText, decryptedText;
+    private static SecretKey key;
+
+    
+    public Symmetric(String originalText, String encryptedText, String decryptedText, String algoType){
+	this.originalText = originalText;
+	this.encryptedText = encryptedText;
+	this.decryptedText = decryptedText;
+	this.algoType = algoType;
+	
+    }
+
+    public static void encrypt(){
+	try{
+	    KeyGenerator keygenerator = KeyGenerator.getInstance(algoType);
+	    SecretKey myDesKey = keygenerator.generateKey();
+	    key = myDesKey;
+	    
+	    System.out.println(myDesKey);
+	    
+	    Cipher desCipher;
+	    desCipher = Cipher.getInstance(algoType);
+
+	    byte[] text = originalText.getBytes("UTF8");
+
+	    desCipher.init(Cipher.ENCRYPT_MODE, myDesKey);
+	    byte[] textEncrypted = desCipher.doFinal(text);
+
+	    String output = new String(textEncrypted);
+
+	    encryptedText = output;
+	}catch(Exception e){
+	    System.out.println("You failed");
+	}
+    }
+
+    public static void decrypt(){
+	try{
+	    Cipher desCipher;
+	    desCipher = Cipher.getInstance(algoType);
+
+	    desCipher.init(Cipher.DECRYPT_MODE, key);
+	    byte[] textDecrypted = desCipher.doFinal(encryptedText.getBytes("UTF8"));
+
+	    String output = new String(textDecrypted);
+
+	    decryptedText = output;
+	}catch(Exception e){
+	    System.out.println(e);
+	}
+    }
+	    
     public static void main(String[] args) {
 
-        try{
+	Symmetric s = new Symmetric("Hello World", "", "", "DES");
+
+	// create new key
+	SecretKey secretKey = KeyGenerator.getInstance("DES").generateKey();
+	// get base64 encoded version of the key
+	String encodedKey = Base64.getEncoder().encodeToString(secretKey.getEncoded());
+
+	
+	System.out.println(encryptedText);
+	System.out.println("------------------------------------");
+	
+	s.encrypt();
+
+	System.out.println(encryptedText);
+
+	System.out.println("------------------------------------");
+
+	s.decrypt();
+	System.out.println(decryptedText);
+	
+	/* try{
             KeyGenerator keygenerator = KeyGenerator.getInstance("DES");
             SecretKey myDesKey = keygenerator.generateKey();
 
@@ -59,5 +132,8 @@ public class Symmetric{
         {
             System.out.println("Exception");
         }
+	*/
+
+	
     }
 }
