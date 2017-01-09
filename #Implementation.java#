@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Implementation{
 
-    private static String originalText, encryptedText, decryptedText, algoType;
+    private static String originalText, encryptedText, decryptedText;
     private static int shift;
     private static Scanner sc;
     
@@ -15,6 +15,7 @@ public class Implementation{
 
     public static void terminal(){
 	sc = new Scanner(System.in);
+	
 	chooseFile();
 	System.out.println("\n" + originalText);
 	chooseEncryption();
@@ -71,7 +72,7 @@ public class Implementation{
 	System.out.println("\nWhat would you like the encrypted file name to be? (You don't need to put .txt)");
 	String input = sc.next();
 	if(input.equals("")){
-	    System.out.println("Save to default Encrypted.txt");
+	    System.out.println("You failed");
 	    createEncryptedFile("Encrypted");
 	}else{
 	    System.out.println("Yay success");
@@ -109,28 +110,7 @@ public class Implementation{
     }
 
     public static void optionSymmetric(){
-	System.out.println("\nWhich algorithm do you want to use?");
-	System.out.println("1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)HmacMD5 7)RC2 [input the number]");
-	String input = sc.next();
-	if(input == 1){
-	    algoType = "AES";
-	}else if(input == 2){
-	    algoType = "ARCFOUR";
-	}else if(input == 3){
-	    algoType = "Blowfish";
-	}else if(input == 4){
-	    algoType = "DES";
-	}else if(input == 5){
-	    algoType = "DESede";
-	}else if(input == 6){
-	    algoType = "HmacMD5";
-	}else if(input == 7){
-	    algoType = "RC2";
-	}else{
-	    System.out.println("Please input a number corresponding with the algorithm you want to use");
-	    optionSymmetric();
-	}
-	
+
     }
     
     public static String getOriginalText(){

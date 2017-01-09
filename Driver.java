@@ -9,17 +9,15 @@ public class Driver extends Implementation{
         final String ANSI_HOME = "\u001b[H";
         System.out.print(ANSI_CLS + ANSI_HOME);
     }
-
-    
     
     private static void chooseOne(){
 	String choice = sc.next();	
 		
-	if(choice.equals("GUI")){
+	if(choice.equals("GUI") || choice.equals("gui")){
 	    System.out.println("GUI not currently available");
-	    System.out.println("\nPlease choose either <GUI> or <terminal>");
+	    System.out.println("\nPlease choose either <GUI> or <Terminal>");
 	    chooseOne();
-	}else if(choice.equals("terminal") || choice.equals("Terminal")){
+	}else if(choice.equals("terminal") || choice.equals("Terminal") || choice.equals("TERMINAL")){
 	    clearScreen();
 	    terminal();
 	}else{
