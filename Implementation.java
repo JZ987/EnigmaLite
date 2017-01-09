@@ -36,7 +36,7 @@ public class Implementation{
 
     public static void createEncryptedFile(String fileName){
 	
-	Cipher text = new Cipher(originalText, encryptedText, decryptedText, shift);
+	Cipher text = new Cipher(originalText, encryptedText, decryptedText, shift, true, true);
 	text.cipher();
 
 	try{
@@ -112,19 +112,19 @@ public class Implementation{
 	System.out.println("\nWhich algorithm do you want to use?");
 	System.out.println("1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)HmacMD5 7)RC2 [input the number]");
 	String input = sc.next();
-	if(input == 1){
+	if(input.equals("1")){
 	    algoType = "AES";
-	}else if(input == 2){
+	}else if(input.equals("2")){
 	    algoType = "ARCFOUR";
-	}else if(input == 3){
+	}else if(input.equals("3")){
 	    algoType = "Blowfish";
-	}else if(input == 4){
+	}else if(input.equals("4")){
 	    algoType = "DES";
-	}else if(input == 5){
+	}else if(input.equals("5")){
 	    algoType = "DESede";
-	}else if(input == 6){
+	}else if(input.equals("6")){
 	    algoType = "HmacMD5";
-	}else if(input == 7){
+	}else if(input.equals("7")){
 	    algoType = "RC2";
 	}else{
 	    System.out.println("Please input a number corresponding with the algorithm you want to use");
