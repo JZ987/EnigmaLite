@@ -160,44 +160,4 @@ public class Cipher{
     public static String getDecryptedText(){
 	return decryptedText;
     }
-    
-    /* //MAIN
-    public static void main(String[]args){
-	if((args.length != 2) && (args.length != 3)){
-	    throw new IllegalArgumentException("Missing or Incomplete Input");
-	}
-
-	if(Integer.parseInt(args[1]) < 0){
-	    shift = (Integer.parseInt(args[1]) % 26) + 26;
-	}
-	else{
-	    shift = Integer.parseInt(args[1]) % 26;
-	}
-
-	file = args[0];
-
-	selector = args[2];
-	
-	//getText();
-
-	if(selector.equals("cipher")){
-
-	    cipher();
-	}
-
-	if(selector.equals("decipher")){
-	    decipher();
-	}
-
-	System.out.println("Original Text: ");
-	System.out.println(originalText);
-	System.out.println("==================================================");
-	System.out.println("Encrypted Text: ");
-	System.out.println(encryptedText);
-	System.out.println("==================================================");
-	System.out.println("Decrypted Text: ");
-	System.out.println(decryptedText);
-    }
-    */
-   
 }
