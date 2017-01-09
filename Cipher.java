@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Cipher{
 
-    //fed from terminal
     private static String originalText = "";
 
     //fed from terminal
