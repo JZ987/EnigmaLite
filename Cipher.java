@@ -3,16 +3,6 @@ import java.io.*;
 
 public class Cipher{
 
-    public static char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-
-    public static char[] ALPHABET = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-
-    public static char[] number = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-
-    public static char[] symbol = {'~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '{', ",", '[', '}', ']', '|', ';', ':' , '<', '.', '>', '/', '?', '', ''}; //missing \ ' "
-    
-    public static ArrayList skips;
-
     private static String originalText = "";
 
     private static String encryptedText = "";
@@ -22,15 +12,31 @@ public class Cipher{
     private static String file;
 
     private static int shift;
+        
+    public static ArrayList skips;
 
-    private static String selector;
+    private static String selector;//selects cipher or decipher
 
-    private static String skip;
+    private static Boolean swapDigits;
+
+    private static Boolean swapSymbols;
+
+    private static char assignSpace;
+
+    //Reference library arrays
+    public static char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+    public static char[] ALPHABET = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+    public static char[] digit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+    public static char[] symbol = {'{', '`', '!', '[', '#', '$', '%', '^', '&', '*', '_', ')', '-', '(', '=', ',', '~', '+', '"', '@', '}', ';', '|', ']', ':' , '<', '.', '>', '/', '?'}; //missing \ '
+
     //METHODS
 
     //Gets a string of text from a txt file
     //parses config file
-    //Move to abstract class
+    //Moved to abstract class
      public static void getText(){
 	try{
 	    Scanner in = new Scanner(new File(file));
@@ -44,17 +50,7 @@ public class Cipher{
 	}
      }
 
-     /*
-    try{
-	PrintWriter writer = new PrintWriter("Encrypted" + file, "UTF-8");
-	writer.println(encryptedText);
-	writer.close();
-    } catch (IOException e) {
-	System.exit(1);	    
-    }
-    */
-
-    //Enciphers that data in the originalText variable
+    //Enciphers the data in the originalText variable
     public static void cipher(){
 	String etext = "";
 	int switched = 0;
@@ -64,6 +60,7 @@ public class Cipher{
 	    return;
 	}
 
+	//cycles through every element of originalText
 	for(int p = 0; p < originalText.length(); p++){
 	    //Returns spaces as spaces
 	    if(originalText.substring(p, p + 1).equals(" ")){
@@ -75,13 +72,14 @@ public class Cipher{
 	    	    
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
+	    //lowercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
 		    etext = etext + alphabet[(i + shift) % 26];
 		    switched = 26;
 		}
 	    }
-
+	    //uppercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (ALPHABET[i])){
 		    etext = etext + ALPHABET[(i + shift) % 26];
@@ -89,11 +87,25 @@ public class Cipher{
 			}
 	    }
 
-	    //returns punctuation
-	    if(switched == 0){
-		etext = etext + originalText.charAt(p);
+	    //digits
+	    if(swapDigit && (switched != 26)){
+		for(int i = 0; (i < 10; i++){
+		    if(originalText.charAt(p) == (digit[i])){
+			etext = etext + digit[(i + shift) % 10];
+		    }
+		}
 	    }
-	}
+
+	    //symbols
+	    if(swapSymbol && (switched != 26)){
+		for(int i = 0; i < 30; i++){
+		    if(originalText.charAt(p) == (symbols[i])){
+			etext = etext + symbols[(i + shift) % 30];
+		    }
+		}
+	    }
+
+	}//ends the wrapping for loop
 	encryptedText = etext;
     }
 
@@ -117,6 +129,7 @@ public class Cipher{
 	    	    
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
+	    //lowercase
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
 		    detext = detext + alphabet[(i + (26 - shift)) % 26];
@@ -124,6 +137,7 @@ public class Cipher{
 		}
 	    }
 
+	    //uppercase
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (ALPHABET[i])){
 		    detext = detext + ALPHABET[(i + (26 - shift)) % 26];
@@ -131,11 +145,25 @@ public class Cipher{
 			}
 	    }
 
-	    //returns punctuation
-	    if(switched == 0){
-		detext = detext + originalText.charAt(p);
+	    //digits
+	    if(swapDigit && (switched != 26)){
+		for(int i = 0; (i < 10; i++){
+		    if(originalText.charAt(p) == (digit[i])){
+			etext = etext + digit[(i + (10 - shift)) % 10];
+		    }
+		}
 	    }
-	}
+
+	    //symbols
+	    if(swapSymbol && (switched != 26)){
+		for(int i = 0; i < 30; i++){
+		    if(originalText.charAt(p) == (symbols[i])){
+			etext = etext + symbols[(i + (30 - shift)) % 30];
+		    }
+		}
+	    }
+
+	}//ends wrapping for loop
         
 	decryptedText = detext;
     }
@@ -158,7 +186,7 @@ public class Cipher{
 	selector = args[2];
 
 	for(int i = 0; i < args.length - 2; i ++){
-	    skips.add(args[3 + i];
+	    skips.add(args[3 + i]);
 	}
 	
 	getText();
