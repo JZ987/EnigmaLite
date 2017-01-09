@@ -1,27 +1,39 @@
 import java.util. *;
 import java.io.*;
+import java.util.ArrayList;
 
 public class Cipher{
 
+    //fed from terminal
     private static String originalText = "";
 
+    //fed from terminal
     private static String encryptedText = "";
 
+    //fed from terminal
     private static String decryptedText = "";
 
+    //included for testing
     private static String file;
 
+    //fed from terminal
     private static int shift;
-        
-    public static ArrayList skips;
 
+    //fed from terminal
+    public static ArrayList<Character> skips = new ArrayList<Character>(' ');
+
+    //fed from terminal
     private static String selector;//selects cipher or decipher
 
+    //fed from terminal
     private static Boolean swapDigits;
 
+    //fed from terminal
     private static Boolean swapSymbols;
 
-    private static char assignSpace;
+    //fed from terminal
+    private static char assignSpace;//allows the user to assign a symbol to
+    //replace 'space'. This symbol is then added to the skip list.
 
     //Reference library arrays
     public static char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
@@ -30,7 +42,7 @@ public class Cipher{
 
     public static char[] digit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-    public static char[] symbol = {'{', '`', '!', '[', '#', '$', '%', '^', '&', '*', '_', ')', '-', '(', '=', ',', '~', '+', '"', '@', '}', ';', '|', ']', ':' , '<', '.', '>', '/', '?'}; //missing \ '
+    public static char[] symbol = {'{', '`', '!', '[', '#', '$', '%', '^', '&', '*', '_', ')', '-', '(', '=', ',', '~', '+', '"', '@', '}', ';', '|', ']', ':' , '<', '.', '>', '/', '?'}; //unsupported chars: \ '
 
     //METHODS
 
@@ -62,19 +74,30 @@ public class Cipher{
 
 	//cycles through every element of originalText
 	for(int p = 0; p < originalText.length(); p++){
+
+	    //resets the switched checker
+	    switched = 0;
+
+	    //checks if an element should be skipped over
+	    if(skips.contains(originalText.charAt(p))){
+		etext = etext + originalText.charAt(p);
+		switched = 26;
+		//System.out.println(switched);
+	    }
+	    
 	    //Returns spaces as spaces
 	    if(originalText.substring(p, p + 1).equals(" ")){
 		etext = etext + " ";
 	    }
-
-	    //resets the switched checker
-	    switched = 0;
 	    	    
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
 	    //lowercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
+		    //if(skips.contains(alphabet[(i + shift) % 26)){
+		    //	    etext = etext
+		    //	}
 		    etext = etext + alphabet[(i + shift) % 26];
 		    switched = 26;
 		}
@@ -100,7 +123,7 @@ public class Cipher{
 	    //symbols
 	    if(swapSymbols && (switched != 26)){
 		for(int i = 0; i < 30; i++){
-		    if(originalText.charAt(p) == (symbol[i])){
+		    if( (originalText.charAt(p) == (symbol[i])) && !(skips.contains(symbol[i]))){
 			etext = etext + symbol[(i + shift) % 30];
 			switched = 26;
 		    }
@@ -126,16 +149,24 @@ public class Cipher{
 	int switched = 0;
 
 	for(int p = 0; p < originalText.length(); p++){
+	    
+	    //resets the switched checker
+	    switched = 0;
+	    
 	    //Returns spaces as spaces
 	    if(originalText.substring(p, p + 1).equals(" ")){
 		detext = detext + " ";
 	    }
 
-	    //resets the switched checker
-	    switched = 0;
-	    	    
+	    //checks if an element should be skipped over
+	    if(skips.contains(originalText.charAt(p))){
+		detext = detext + originalText.charAt(p);
+		switched = 26;
+	    }
+	    
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
+
 	    //lowercase
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
@@ -182,14 +213,14 @@ public class Cipher{
 	decryptedText = detext;
     }
 
-    //MAIN
+    //MAIN FOR TESTING
     public static void main(String[]args){
-	if(args.length < 5){
+	if(!(args.length < 15)){
 	    throw new IllegalArgumentException("Missing or Incomplete Input");
 	}
 
 	//commandline testing format:
-	//java Cipher file shift selector swapDigits swapSymbols
+	//java Cipher file shift selector swapDigits swapSymbols skips
 
 	if(Integer.parseInt(args[1]) < 0){
 	    shift = (Integer.parseInt(args[1]) % 26) + 26;
@@ -205,6 +236,12 @@ public class Cipher{
 	swapDigits = Boolean.parseBoolean(args[3]);
 
 	swapSymbols = Boolean.parseBoolean(args[4]);
+
+	for(int i = 5; i < args.length; i++){ 
+	    skips.add(args[i].charAt(0));
+	}
+
+	System.out.println("Skips: " + skips.toString());
 	
 	getText();
 
