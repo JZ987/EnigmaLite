@@ -30,14 +30,13 @@ import javax.crypto.SecretKey;
 
 public class Symmetric{
 
-    private static String algoType, originalText, encryptedText, decryptedText;
+    private static String algoType, originalText, modifiedText;
     private static SecretKey key;
 
     
-    public Symmetric(String originalText, String encryptedText, String decryptedText, String algoType){
+    public Symmetric(String originalText, String modifiedText, String algoType){
 	this.originalText = originalText;
-	this.encryptedText = encryptedText;
-	this.decryptedText = decryptedText;
+	this.modifiedText = modifiedText;
 	this.algoType = algoType;
 	
     }
