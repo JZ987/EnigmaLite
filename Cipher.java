@@ -53,17 +53,6 @@ public class Cipher extends Implementation{
 	this.swapSymbols = swapSymbols;
 	this.skips = {' '};
     }
-
-    /*
-    //Accessors
-    public static String getModifiedText(){
-	return modifiedText;
-    }
-
-    public static String getOriginalText(){
-	return originalText;
-    }
-    */
     
     //METHODS
 
@@ -170,19 +159,19 @@ public class Cipher extends Implementation{
 	String detext = "";
 	int switched = 0;
 
-	for(int p = 0; p < encryptedText.length(); p++){
+	for(int p = 0; p < originalText.length(); p++){
 	    
 	    //resets the switched checker
 	    switched = 0;
 	    
 	    //Returns spaces as spaces
-	    if(encryptedText.substring(p, p + 1).equals(" ")){
+	    if(originalText.substring(p, p + 1).equals(" ")){
 		detext += " ";
 	    }
 
 	    //checks if an element should be skipped over
-	    if(skips.contains(encryptedText.charAt(p))){
-		detext += encryptedText.charAt(p);
+	    if(skips.contains(originalText.charAt(p))){
+		detext += originalText.charAt(p);
 		switched = 26;
 	    }
 	    
@@ -199,7 +188,7 @@ public class Cipher extends Implementation{
 
 	    //uppercase
 	    for(int i = 0; (i + switched) < 26; i++){
-		if(encryptedText.charAt(p) == (ALPHABET[i])){
+		if(originalText.charAt(p) == (ALPHABET[i])){
 		    detext += ALPHABET[(i + (26 - shift)) % 26];
 		    switched = 26;
 			}
@@ -208,7 +197,7 @@ public class Cipher extends Implementation{
 	    //digits
 	    if(swapDigits && (switched != 26)){
 		for(int i = 0; i < 10; i++){
-		    if(encryptedText.charAt(p) == (digit[i])){
+		    if(origina;Text.charAt(p) == (digit[i])){
 			detext += digit[(i + (10 - shift)) % 10];
 			switched = 26;
 		    }
@@ -218,7 +207,7 @@ public class Cipher extends Implementation{
 	    //symbols
 	    if(swapSymbols && (switched != 26)){
 		for(int i = 0; i < 30; i++){
-		    if(encryptedText.charAt(p) == (symbol[i])){
+		    if(originalText.charAt(p) == (symbol[i])){
 			detext += symbol[(i + (30 - shift)) % 30];
 			switched = 26;
 		    }
@@ -227,72 +216,13 @@ public class Cipher extends Implementation{
 
 	    //Catches unswitched chars
 	    if(switched == 0){
-		detext += encryptedText.charAt(p);
+		detext += originalText.charAt(p);
 	    }
 	    
 	}//ends wrapping for loop
         
 	modifiedText = detext;
     }
-
-    public static String getEncryptedText(){
-	return encryptedText;
-    }
     
-    public static String getDecryptedText(){
-	return decryptedText;
-    }
-
-    public static String getOriginalText(){
-	return originalText;
-    }
-    
-    //MAIN FOR TESTING
-    public static void main(String[]args){
-	if(!(args.length < 15)){
-	    throw new IllegalArgumentException("Missing or Incomplete Input");
-	}
-
-	//commandline testing format:
-	//java Cipher file shift selector swapDigits swapSymbols skips
-
-	if(Integer.parseInt(args[1]) < 0){
-	    shift = (Integer.parseInt(args[1]) % 26) + 26;
-	}
-	else{
-	    shift = Integer.parseInt(args[1]) % 26;
-	}
-
-	file = args[0];
-
-	selector = args[2];
-
-	swapDigits = Boolean.parseBoolean(args[3]);
-
-	swapSymbols = Boolean.parseBoolean(args[4]);
-
-	for(int i = 5; i < args.length; i++){ 
-	    skips.add(args[i].charAt(0));
-	}
-
-	System.out.println("Skips: " + skips.toString());
-	
-	getText();
-
-	if(selector.equals("cipher")){
-
-	    cipher();
-	}
-
-	if(selector.equals("decipher")){
-	    decipher();
-	}
-
-	System.out.println("Original Text: ");
-	System.out.println(originalText);
-	System.out.println("==================================================");
-	System.out.println("Modified Text: ");
-	System.out.println(modifiedText);
-
-    }
+    //end
 }
