@@ -7,10 +7,7 @@ public class Cipher{
     private static String originalText = "";
 
     //fed from terminal
-    private static String encryptedText = "";
-
-    //fed from terminal
-    private static String decryptedText = "";
+    private static String modifiedText = "";
 
     //included for testing
     private static String file;
@@ -43,11 +40,29 @@ public class Cipher{
 
     public static char[] symbol = {'{', '`', '!', '[', '#', '$', '%', '^', '&', '*', '_', ')', '-', '(', '=', ',', '~', '+', '"', '@', '}', ';', '|', ']', ':' , '<', '.', '>', '/', '?'}; //unsupported chars: \ '
 
+    //Constructor
+    public Cipher(String originalText, String encryptedText, String decryptedText, int shift, boolean swapDigits, boolean swapSymbols, ArrayList<Character> skips){
+	this.originalText = originalText;
+	this.modifiedText = modifiedText;
+	this.shift = shift;
+	this.swapDigits = swapDigits;
+	this.swapSymbols = swapSymbols;
+	this.skips = skips;
+    }
+
+    //Accessors
+    public static String getModifiedText(){
+	return modifiedText;
+    }
+
+    public static String getOriginalText(){
+	return originalText;
+    }
     //METHODS
 
     //Gets a string of text from a txt file
     //parses config file
-    //Moved to abstract class
+    //For testing purposes. Move to abstract class
      public static void getText(){
 	try{
 	    Scanner in = new Scanner(new File(file));
@@ -67,7 +82,7 @@ public class Cipher{
 	int switched = 0;
 	
 	if(shift == 0){
-	    encryptedText = originalText;
+	    modifiedText = originalText;
 	    return;
 	}
 
@@ -81,7 +96,6 @@ public class Cipher{
 	    if(skips.contains(originalText.charAt(p))){
 		etext = etext + originalText.charAt(p);
 		switched = 26;
-		//System.out.println(switched);
 	    }
 	    
 	    //Returns spaces as spaces
@@ -94,10 +108,12 @@ public class Cipher{
 	    //lowercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
-		    //if(skips.contains(alphabet[(i + shift) % 26)){
-		    //	    etext = etext
-		    //	}
-		    etext = etext + alphabet[(i + shift) % 26];
+		    if(skips.contains(alphabet[(i + shift) % 26])){
+			etext = etext + alphabet[(i + shift/**/) % 26];
+		    }
+		    else{
+			etext = etext + alphabet[(i + shift) % 26];
+		    }
 		    switched = 26;
 		}
 	    }
@@ -135,7 +151,7 @@ public class Cipher{
 	    }
 
 	}//ends the wrapping for loop
-	encryptedText = etext;
+	modifiedText = etext;
     }
 
     
@@ -209,7 +225,7 @@ public class Cipher{
 	    
 	}//ends wrapping for loop
         
-	decryptedText = detext;
+	modifiedText = detext;
     }
 
     //MAIN FOR TESTING
@@ -256,11 +272,9 @@ public class Cipher{
 	System.out.println("Original Text: ");
 	System.out.println(originalText);
 	System.out.println("==================================================");
-	System.out.println("Encrypted Text: ");
-	System.out.println(encryptedText);
-	System.out.println("==================================================");
-	System.out.println("Decrypted Text: ");
-	System.out.println(decryptedText);
+	System.out.println("Modified Text: ");
+	System.out.println(modifiedText);
+
     }
 
    
