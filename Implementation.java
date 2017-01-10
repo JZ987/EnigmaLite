@@ -37,7 +37,7 @@ public class Implementation{
 		Scanner in = new Scanner(new File(file));
 		for(int p = 0; in.hasNext(); p++){
 		    String word = in.next();
-		    encryptedText += word + " ";
+		    modifiedText += word + " ";
 		}
 	    }catch(FileNotFoundException e){
 		System.out.println("Invalid filename or path!");
@@ -266,12 +266,8 @@ public class Implementation{
 	return originalText;
     }
 
-    public static String getEncryptedText(){
-	return encryptedText;
+    public static String getModifiedText(){
+	return modifiedText;
     }
-
-    public static String getDecryptedText(){
-	return decryptedText;
-    }
-
+    //end
 }
