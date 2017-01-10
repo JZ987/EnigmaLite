@@ -65,7 +65,7 @@ public class Cipher/* extends Implementation*/{
     }
     
     
-    //METHODS
+    //ENCRYPTION METHODS
     //Enciphers the data in the originalText variable
     public static void cipher(){
 	String etext = "";
@@ -208,15 +208,14 @@ public class Cipher/* extends Implementation*/{
 		}
 	    }
 
-	    //Catches unswitched chars
+	    //Catches unswitched chars and makes sure they are not omitted
 	    if(switched == 0){
-		detext += originalText.charAt(p);
+		detext = detext + originalText.charAt(p);
 	    }
 	    
 	}//ends wrapping for loop
-        
 	modifiedText = detext;
     }
     
-    //end
+    //END
 }

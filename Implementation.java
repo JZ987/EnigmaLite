@@ -27,6 +27,7 @@ public class Implementation{
     }
     */
 
+    //Begins running the terminal interface
     public static void terminal(){
 	originalText = "";
 	modifiedText = "";
@@ -61,6 +62,8 @@ public class Implementation{
 	}
     }
 
+    //creates the file and runs the selected methods from cipher to create
+    //the encoded/decoded text
     public static void createFile(String fileName){
 	Cipher text = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
 	if(selector.equals("encrypt")){
@@ -152,9 +155,10 @@ public class Implementation{
 	}else if(selector.equals("decrypt")){
 	    System.out.println("\nWhat would you like the decrypted file name to be? (You don't need to put .txt)");
 	}
-	
+
+	//concluding message
 	String input = sc.nextLine();
-	System.out.println("\nYay success!!");
+	System.out.println("\nGreat Job!!! Your coded file was successfully created and placed in the folder EnigmaLitebin.");
 	createFile(input);
     }
 
