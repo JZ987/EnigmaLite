@@ -53,26 +53,18 @@ public class Cipher/*extends Implementation*/{
 	this.swapSymbols = swapSymbols;
 	this.skips = skips;
     }
+
+    //Accessor Methods
+    public static String getOriginalText(){
+	return originalText;
+    }
+
+    public static String getModifiedText(){
+	return modifiedText;
+    }
+    
     
     //METHODS
-
-    /*
-    //Gets a string of text from a txt file
-    //parses config file
-    //For testing purposes. Move to abstract class
-     public static void getText(){
-	try{
-	    Scanner in = new Scanner(new File(file));
-	    for(int p = 0; in.hasNext(); p++){
-		String word = in.next();
-		originalText += word + " ";
-	    }
-	}catch(FileNotFoundException e){
-	    System.out.println("Invalid filename or path");
-	    System.exit(1);
-	}
-     }
-    */
 
     //Enciphers the data in the originalText variable
     public static void cipher(){

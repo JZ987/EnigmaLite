@@ -10,7 +10,20 @@ public class Implementation{
     private static Scanner sc;
     private static ArrayList<Character> skips;
 
-    
+    //debug mode for cipher
+    //UNFINISHED
+    public static void cipherDebug(){
+	System.out.println("\nPrint file selector swapdigit swapsymbol shift skips");
+	String nfile = args[0];
+	selector = args[1];
+	getText(nfile);
+	swapDigits = Boolean.parseBoolean(args[3]);
+	swapSymbols = Boolean.parseBoolean(args[4]);
+	shift = Integer.parseInt(args[5]);
+	for(int i = 6; i < args.length; i++){
+	    skips.add(Character.parseChar(args[i]));
+	}
+    }
 
     public static void terminal(){
 	originalText = "";
@@ -19,7 +32,7 @@ public class Implementation{
 	chooseWhatToDo();
     }
 
-    
+    //gets text from a specified file
     public static void getText(String file){
 	if(selector.equals("encrypt")){
 	    try{
@@ -47,7 +60,6 @@ public class Implementation{
     }
 
     public static void createFile(String fileName){
-	
 	Cipher text = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
 	if(selector.equals("encrypt")){
 	    text.cipher();
@@ -78,6 +90,8 @@ public class Implementation{
 	}else if(input.equals("Decrypt") || input.equals("decrypt")){
 	    selector = "decrypt";
 	    chooseDecryption();
+	}else if(input.equals("debug")){
+	    cipherDebug();
 	}else{
 	    System.out.println("Unknown command");
 	    chooseWhatToDo();
@@ -261,14 +275,5 @@ public class Implementation{
 	}
     }
 
-    //Accessor Methods
-    public static String getOriginalText(){
-	return originalText;
-    }
-
-    public static String getModifiedText(){
-	return modifiedText;
-    }
-    
     //END
 }
