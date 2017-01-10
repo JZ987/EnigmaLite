@@ -231,18 +231,6 @@ public class Cipher{
 	modifiedText = detext;
     }
 
-    public static String getEncryptedText(){
-	return encryptedText;
-    }
-    
-    public static String getDecryptedText(){
-	return decryptedText;
-    }
-
-    public static String getOriginalText(){
-	return originalText;
-    }
-    
     //MAIN FOR TESTING
     public static void main(String[]args){
 	if(!(args.length < 15)){

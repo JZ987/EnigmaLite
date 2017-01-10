@@ -1,47 +1,29 @@
-/*import java.util. *;
-import java.io.*;
+import java.util.*;
+import javax.crypto.*;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-
-
-//Uses a single key to encrypt and decrypt data
-public class Symmetric{
-
-    public static void main(String[] args){
-
-	try{
-	    KeyGenerator keygen = KeyGenerator.getInstance("DES");
-	    SecretKey myKey = keygenerator.generateKey();
-
-	    Cipher desCipher;
-	    desCipher = Cipher.getInstance("DES");
-
-	    byte[] text = "No body can see me.".getBytes("UTF8");
-	}
-    
-
-	}*/
-
-
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
+import javax.crypto.spec.*;
 
 public class Symmetric{
 
-    private static String algoType, originalText, encryptedText, decryptedText;
+    private static String algoType, originalText, modifiedText;
     private static SecretKey key;
+    private static byte[] unModKey;
 
     
-    public Symmetric(String originalText, String encryptedText, String decryptedText, String algoType){
+    public Symmetric(String originalText, String modifiedText, String algoType){
 	this.originalText = originalText;
-	this.encryptedText = encryptedText;
-	this.decryptedText = decryptedText;
+	this.modifiedText = modifiedText;
 	this.algoType = algoType;
-	
     }
 
+    //Convert a String to SecretKey
+    public static void convertToKey(String key){
+	byte[] byteKey = Base64.getDecoder().decode(key);
+	unModKey = byteKey;
+    }
+    
     public static void encrypt(){
 	try{
 	    KeyGenerator keygenerator = KeyGenerator.getInstance(algoType);
@@ -60,7 +42,7 @@ public class Symmetric{
 
 	    String output = new String(textEncrypted);
 
-	    encryptedText = output;
+	    modifiedText = output;
 	}catch(Exception e){
 	    System.out.println("You failed");
 	}
@@ -72,11 +54,11 @@ public class Symmetric{
 	    desCipher = Cipher.getInstance(algoType);
 
 	    desCipher.init(Cipher.DECRYPT_MODE, key);
-	    byte[] textDecrypted = desCipher.doFinal(encryptedText.getBytes("UTF8"));
+	    byte[] textDecrypted = desCipher.doFinal(originalText.getBytes("UTF8"));
 
 	    String output = new String(textDecrypted);
 
-	    decryptedText = output;
+	    modifiedText = output;
 	}catch(Exception e){
 	    System.out.println(e);
 	}
@@ -84,25 +66,28 @@ public class Symmetric{
 	    
     public static void main(String[] args) {
 
-	Symmetric s = new Symmetric("Hello World", "", "", "DES");
+	Symmetric s = new Symmetric("Hello World", "", "DES");
 
+	/*
 	// create new key
-	SecretKey secretKey = KeyGenerator.getInstance("DES").generateKey();
+	SecretKey secretKey = KeyGenerator.getInstance(algoType).generateKey();
 	// get base64 encoded version of the key
 	String encodedKey = Base64.getEncoder().encodeToString(secretKey.getEncoded());
-
+	*/
 	
-	System.out.println(encryptedText);
+	System.out.println(originalText);
 	System.out.println("------------------------------------");
 	
 	s.encrypt();
 
-	System.out.println(encryptedText);
+	System.out.println("-----------------------------------");
+
+	System.out.println(modifiedText);
 
 	System.out.println("------------------------------------");
 
 	s.decrypt();
-	System.out.println(decryptedText);
+	System.out.println(modifiedText);
 	
 	/* try{
             KeyGenerator keygenerator = KeyGenerator.getInstance("DES");

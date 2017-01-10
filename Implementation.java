@@ -258,20 +258,6 @@ public class Implementation{
 	}else{
 	    System.out.println("Please input a number corresponding with the algorithm you want to use");
 	    optionSymmetric();
-	}
-	
+	}	
     }
-    
-    public static String getOriginalText(){
-	return originalText;
-    }
-
-    public static String getEncryptedText(){
-	return encryptedText;
-    }
-
-    public static String getDecryptedText(){
-	return decryptedText;
-    }
-
 }
