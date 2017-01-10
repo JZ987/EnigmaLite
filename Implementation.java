@@ -3,115 +3,250 @@ import java.io.*;
 
 public class Implementation{
 
-    private static String originalText, encryptedText, decryptedText, algoType;
+    private static String selector, originalText, encryptedText, decryptedText, algoType;
+    private static boolean swapDigits, swapSymbols;
     private static int shift;
     private static Scanner sc;
+    private static ArrayList<Character> skips;
+
     
-    public Implementation(){
-        encryptedText = "";
-	decryptedText = "";
-	originalText = "";
-    }
 
     public static void terminal(){
+	originalText = "";
+	encryptedText = "";
+	decryptedText = "";
 	sc = new Scanner(System.in);
-	chooseFile();
-	System.out.println("\n" + originalText);
-	chooseEncryption();
+	chooseWhatToDo();
     }
 
     
     public static void getText(String file){
-	try{
-	    Scanner in = new Scanner(new File(file));
-	    for(int p = 0; in.hasNext(); p++){
-		String word = in.next();
-		originalText += word + " ";
+	if(selector.equals("encrypt")){
+	    try{
+		Scanner in = new Scanner(new File(file));
+		for(int p = 0; in.hasNext(); p++){
+		    String word = in.next();
+		    originalText += word + " ";
+		}
+	    }catch(FileNotFoundException e){
+		System.out.println("Invalid filename or path!");
+		chooseFile();
 	    }
-	}catch(FileNotFoundException e){
-	    System.out.println("Invalid filename or path!");
-	    chooseFile();
+	}else if(selector.equals("decrypt")){
+	    try{
+		Scanner in = new Scanner(new File(file));
+		for(int p = 0; in.hasNext(); p++){
+		    String word = in.next();
+		    encryptedText += word + " ";
+		}
+	    }catch(FileNotFoundException e){
+		System.out.println("Invalid filename or path!");
+		chooseFile();
+	    }
 	}
     }
 
-    public static void createEncryptedFile(String fileName){
+    public static void createFile(String fileName){
 	
-	Cipher text = new Cipher(originalText, encryptedText, decryptedText, shift, true, true);
-	text.cipher();
+	Cipher text = new Cipher(originalText, encryptedText, decryptedText, shift, swapDigits, swapSymbols, skips);
+	if(selector.equals("encrypt")){
+	    text.cipher();
+	}else if(selector.equals("decrypt")){
+	    text.decipher();
+	}else{
+	    System.out.println("Error, restart from chooseWhatToDo");
+	    chooseWhatToDo();
+	}
 
 	try{
 	    PrintWriter writer = new PrintWriter(fileName + ".txt", "UTF-8");
-	    writer.println(text.getEncryptedText());
+	    if(selector.equals("encrypt")){
+		writer.println(text.getEncryptedText());
+	    }else if(selector.equals("decrypt")){
+		writer.println(text.getDecryptedText());
+	    }
 	    writer.close();
 	} catch (IOException e) {
+	    System.out.println("Unexpected Error");
 	    System.exit(1);
+	}	    
+    }
+
+    //choose to do encryption or decryption
+    public static void chooseWhatToDo(){
+	System.out.println("\nDo you want to <Encrypt> or <Decrypt> your file?");
+	String input = sc.nextLine();
+	if(input.equals("Encrypt") || input.equals("encrypt")){
+	    selector = "encrypt";
+	    chooseEncryption();
+	}else if(input.equals("Decrypt") || input.equals("decrypt")){
+	    selector = "decrypt";
+	    chooseDecryption();
+	}else{
+	    System.out.println("Unknown command");
+	    chooseWhatToDo();
 	}
-	    
     }
 
+    //input the text file
     public static void chooseFile(){
-	System.out.println("\nInput the text file you want to be encrpted:");
-	getText(sc.next());
+	if(selector.equals("encrypt")){
+	    System.out.println("\nInput the text file you want to be encrypted:");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nInput the text file you want to be decrypted:");
+	}
+	getText(sc.nextLine());
     }
 
+    //choose which type of encryption do you want to use
     public static void chooseEncryption(){
-	System.out.println("\nWhich encryption do you want to use? [Cipher | Symmetric]");
-	String input = sc.next();
+	System.out.println("\nWhich encryption method do you want to use? [Cipher | Symmetric]");
+	String input = sc.nextLine();
 	if(input.equals("Cipher") || input.equals("cipher")){
+	    chooseFile();
 	    optionCipher();
 	}else if(input.equals("Symmetric") || input.equals("symmetric")){
+	    chooseFile();
 	    optionSymmetric();
 	}else{
-	    System.out.println("<Encryption not known>");
+	    System.out.println("<Encryption not known!>");
 	    chooseEncryption();
 	}
     }
 
-    public static void chooseEncryptedFileName(){
-	System.out.println("\nWhat would you like the encrypted file name to be? (You don't need to put .txt)");
-	String input = sc.next();
-	if(input.equals("")){
-	    System.out.println("Save to default Encrypted.txt");
-	    createEncryptedFile("Encrypted");
+    //choose which type of decryption do you want to use
+    public static void chooseDecryption(){
+	System.out.println("\nWhich decryption method do you want to use? [Cipher | Symmetric]");
+	String input = sc.nextLine();
+	if(input.equals("Cipher") || input.equals("cipher")){
+	    chooseFile();
+	    optionCipher();
+	}else if(input.equals("Symmetric") || input.equals("symmetric")){
+	    chooseFile();
+	    optionSymmetric();
 	}else{
-	    System.out.println("Yay success");
-	    createEncryptedFile(input);
+	    System.out.println("<Encryption not known!>");
+	    chooseEncryption();
 	}
     }
-    
-    public static void optionCipher(){
-	System.out.println("\nDo you want to <shift> or <skip>?");
-	String input = sc.next();
 
-	if(input.equals("shift")){
-	    optionShift();
-	}else if(input.equals("skip")){
-	    optionSkip();
-	}else{
-	    System.out.println("Unknown option!");
-	    optionCipher();
-	}	       
+    
+    //choose the name of the finishing encrypted text file name
+    public static void chooseEncryptedFileName(){
+	if(selector.equals("encrypt")){
+	    System.out.println("\nWhat would you like the encrypted file name to be? (You don't need to put .txt)");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nWhat would you like the decrypted file name to be? (You don't need to put .txt)");
+	}
+	
+	String input = sc.nextLine();
+	System.out.println("\nYay success!!");
+	createFile(input);
     }
 
-    public static void optionShift(){
-	System.out.println("\nHow many shifts?");
-	try{
-	    shift = Integer.parseInt(sc.next());
-	}catch(NumberFormatException e){
-	    System.out.println("Please type numbers!");
-	    optionShift();
+    //Cipher Encryption
+    public static void optionCipher(){
+	System.out.println(originalText);
+	System.out.println(encryptedText);
+	chooseSwapDigit();
+	chooseSwapSymbols();
+	chooseShift();
+	skips = new ArrayList<Character>();
+	if(chooseSkipping()){
+	    chooseSkipSymbol();
 	}
 	chooseEncryptedFileName();
     }
 
-    public static void optionSkip(){
-
+    //choose whether you want to shift numbers
+    public static void chooseSwapDigit(){
+	if(selector.equals("encrypt")){
+	    System.out.println("\nWould you like to shift number symbols? <yes|no>");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nDid you shift number symbols? <yes|no>");
+	}
+	String input = sc.nextLine();
+	if(input.equals("yes")){
+	    swapDigits = true;
+	}else if(input.equals("no")){
+	    swapDigits = false;
+	}else{
+	    System.out.println("Please type either <yes> or <no>");
+	    chooseSwapDigit();
+	}
     }
 
+    //choose whether you want to shift symbols
+    public static void chooseSwapSymbols(){
+	if(selector.equals("encrypt")){
+	    System.out.println("\nWould you like to shift non-alphanumeric symbols? <yes|no>");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nDid you shift non-alphanumeric symbols? <yes|no>");
+	}
+	String input = sc.nextLine();
+	if(input.equals("yes")){
+	    swapSymbols = true;
+	}else if(input.equals("no")){
+	    swapSymbols = false;
+	}else{
+	    System.out.println("Please type either <yes> or <no>");
+	    chooseSwapSymbols();
+	}
+    }
+
+    //choose how many shifts you want
+    public static void chooseShift(){
+	if(selector.equals("encrypt")){
+	    System.out.println("\nHow many shifts do you want?");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nBy how much did you shift your symbols?");
+	}
+	try{
+	    shift = Integer.parseInt(sc.nextLine());
+	}catch(NumberFormatException e){
+	    System.out.println("Please type numbers!");
+	    chooseShift();
+	}
+    }
+
+    //choose whether you want to skip certain symbols
+    public static boolean chooseSkipping(){
+	if(selector.equals("encrypt")){
+	    System.out.println("\nDo you want to skip certain symbols? <yes|no>");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nDid you skip certain symbols? <yes|no>");
+	}
+	String input = sc.nextLine();
+	if(input.equals("yes")){
+	    return true;
+	}else if(input.equals("no")){
+	    return false;
+	}else{
+	    System.out.println("Please pick either <yes> or <no>");
+	    return chooseSkipping();
+	}
+    }
+
+    //if chooseSkipping is true
+    public static void chooseSkipSymbol(){
+	if(selector.equals("encrypt")){
+	    System.out.println("\nInput the letters, symbols, and/or numbers you want to skip:");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nInput the letters, symbols, and/or numbers you have skipped");
+	}
+	System.out.println("No spacing is required");
+	String input = sc.nextLine();
+	for (char c : input.toCharArray()) {
+	    skips.add(c);
+	}
+    }
+
+
+    
     public static void optionSymmetric(){
 	System.out.println("\nWhich algorithm do you want to use?");
 	System.out.println("1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)HmacMD5 7)RC2 [input the number]");
-	String input = sc.next();
+	String input = sc.nextLine();
 	if(input.equals("1")){
 	    algoType = "AES";
 	}else if(input.equals("2")){
