@@ -2,8 +2,9 @@ import java.util. *;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Cipher{
+public class Cipher extends Implementation{
 
+    /*
     //fed from terminal
     private static String originalText = "";
 
@@ -31,6 +32,7 @@ public class Cipher{
     //fed from terminal
     private static char assignSpace;//allows the user to assign a symbol to
     //replace 'space'. This symbol is then added to the skip list.
+    */
 
     //Reference library arrays
     public static char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
@@ -49,9 +51,10 @@ public class Cipher{
 	this.shift = shift;
 	this.swapDigits = swapDigits;
 	this.swapSymbols = swapSymbols;
-	this.skips = skips;
+	this.skips = {' '};
     }
 
+    /*
     //Accessors
     public static String getModifiedText(){
 	return modifiedText;
@@ -60,6 +63,7 @@ public class Cipher{
     public static String getOriginalText(){
 	return originalText;
     }
+    */
     
     //METHODS
 

@@ -37,7 +37,7 @@ public class Implementation{
 		Scanner in = new Scanner(new File(file));
 		for(int p = 0; in.hasNext(); p++){
 		    String word = in.next();
-		    encryptedText += word + " ";
+		    modifiedText += word + " ";
 		}
 	    }catch(FileNotFoundException e){
 		System.out.println("Invalid filename or path!");
@@ -63,7 +63,7 @@ public class Implementation{
 	    writer.println(text.getModifiedText());
 	    writer.close();
 	} catch (IOException e) {
-	    System.out.println("Unexpected Error");
+	    System.out.println("Unexpected Error: Invalid Input");
 	    System.exit(1);
 	}	    
     }
@@ -170,7 +170,7 @@ public class Implementation{
 	}
     }
 
-    //choose whether you want to shift symbols
+    //choose whether you want to shift non-alphanumeric symbols
     public static void chooseSwapSymbols(){
 	if(selector.equals("encrypt")){
 	    System.out.println("\nWould you like to shift non-alphanumeric symbols? <yes|no>");
@@ -266,12 +266,9 @@ public class Implementation{
 	return originalText;
     }
 
-    public static String getEncryptedText(){
-	return encryptedText;
+    public static String getModifiedText(){
+	return modifiedText;
     }
 
-    public static String getDecryptedText(){
-	return decryptedText;
-    }
-
+    //END
 }
