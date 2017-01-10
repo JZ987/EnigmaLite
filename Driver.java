@@ -17,7 +17,7 @@ public class Driver extends Implementation{
 	    System.out.println("GUI not currently available");
 	    System.out.println("\nPlease choose either <GUI> or <Terminal>");
 	    chooseOne();
-	}else if(choice.equals("terminal") || choice.equals("Terminal") || choice.equals("TERMINAL")){
+	}else if(choice.equals("terminal") || choice.equals("Terminal") || choice.equals("TERMINAL") || choice.equals("t")){
 	    clearScreen();
 	    terminal();
 	}else{
