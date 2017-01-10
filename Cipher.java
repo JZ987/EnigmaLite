@@ -64,7 +64,7 @@ public class Cipher/*extends Implementation*/{
     }
     
     
-    //METHODS
+    //*****METHODS*****
 
     //Enciphers the data in the originalText variable
     public static void cipher(){
@@ -217,4 +217,6 @@ public class Cipher/*extends Implementation*/{
         
 	modifiedText = detext;
     }
+    
+    //end
 }
