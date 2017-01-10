@@ -41,7 +41,7 @@ public class Cipher{
     public static char[] symbol = {'{', '`', '!', '[', '#', '$', '%', '^', '&', '*', '_', ')', '-', '(', '=', ',', '~', '+', '"', '@', '}', ';', '|', ']', ':' , '<', '.', '>', '/', '?'}; //unsupported chars: \ '
 
     //Constructor
-    public Cipher(String originalText, String encryptedText, String decryptedText, int shift, boolean swapDigits, boolean swapSymbols, ArrayList<Character> skips){
+    public Cipher(String originalText,  String modifiedText, int shift, boolean swapDigits, boolean swapSymbols, ArrayList<Character> skips){
 	this.originalText = originalText;
 	this.modifiedText = modifiedText;
 	this.shift = shift;
