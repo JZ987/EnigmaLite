@@ -259,9 +259,9 @@ public class Implementation{
 	    System.out.println("Please input a number corresponding with the algorithm you want to use");
 	    optionSymmetric();
 	}
-	
     }
-    
+
+    //Accessor Methods
     public static String getOriginalText(){
 	return originalText;
     }
