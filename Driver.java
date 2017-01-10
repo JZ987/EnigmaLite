@@ -28,6 +28,8 @@ public class Driver extends Implementation{
     
     
     public static void main(String[] args){
+
+	Implementation imp = new Implementation();
 	
 	sc = new Scanner(System.in);
 

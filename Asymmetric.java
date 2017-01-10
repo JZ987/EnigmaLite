@@ -4,11 +4,6 @@ import java.io.*;
 //Asymmetric, uses a public key to encrypt and a private key to decrypt
 public class Asymmetric{
 
-<<<<<<< HEAD
-    private static int publicKey;
-
-    private static int privateKey;
-=======
     //fed from interface, else generated and printed
     private static int publicKey;
 
@@ -40,6 +35,4 @@ public class Asymmetric{
 
 	}
     }
->>>>>>> origin/Jonah
 }
-    

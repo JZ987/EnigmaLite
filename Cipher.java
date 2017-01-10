@@ -64,7 +64,6 @@ public class Cipher/*extends Implementation*/{
     }
     
     //*****METHODS*****
-    
     //Enciphers the data in the originalText variable
     public static void cipher(){
 	String etext = "";
@@ -216,6 +215,5 @@ public class Cipher/*extends Implementation*/{
 
 	modifiedText = detext;
     }
-
     //ENDS CLASS
 }

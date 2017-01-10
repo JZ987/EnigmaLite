@@ -13,7 +13,6 @@ public class Implementation{
     //debug mode for cipher
     //UNFINISHED
     /*
->>>>>>> origin/Jonah
     public static void cipherDebug(){
 	System.out.println("\nPrint file selector swapdigit swapsymbol shift skips");
 	String nfile = args[0];
