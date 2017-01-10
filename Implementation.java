@@ -10,7 +10,20 @@ public class Implementation{
     private static Scanner sc;
     private static ArrayList<Character> skips;
 
-    
+    //debug mode for cipher
+    //UNFINISHED
+    public static void cipherDebug(){
+	System.out.println("\nPrint file selector swapdigit swapsymbol shift skips");
+	String nfile = args[0];
+	selector = args[1];
+	getText(nfile);
+	swapDigits = Boolean.parseBoolean(args[3]);
+	swapSymbols = Boolean.parseBoolean(args[4]);
+	shift = Integer.parseInt(args[5]);
+	for(int i = 6; i < args.length; i++){
+	    skips.add(Character.parseChar(args[i]));
+	}
+    }
 
     public static void terminal(){
 	originalText = "";
@@ -19,7 +32,7 @@ public class Implementation{
 	chooseWhatToDo();
     }
 
-    
+    //gets text from a specified file
     public static void getText(String file){
 	if(selector.equals("encrypt")){
 	    try{
@@ -37,7 +50,7 @@ public class Implementation{
 		Scanner in = new Scanner(new File(file));
 		for(int p = 0; in.hasNext(); p++){
 		    String word = in.next();
-		    encryptedText += word + " ";
+		    modifiedText += word + " ";
 		}
 	    }catch(FileNotFoundException e){
 		System.out.println("Invalid filename or path!");
@@ -47,7 +60,6 @@ public class Implementation{
     }
 
     public static void createFile(String fileName){
-	
 	Cipher text = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
 	if(selector.equals("encrypt")){
 	    text.cipher();
@@ -63,7 +75,7 @@ public class Implementation{
 	    writer.println(text.getModifiedText());
 	    writer.close();
 	} catch (IOException e) {
-	    System.out.println("Unexpected Error");
+	    System.out.println("Unexpected Error: Invalid Input");
 	    System.exit(1);
 	}	    
     }
@@ -78,6 +90,8 @@ public class Implementation{
 	}else if(input.equals("Decrypt") || input.equals("decrypt")){
 	    selector = "decrypt";
 	    chooseDecryption();
+	}else if(input.equals("debug")){
+	    cipherDebug();
 	}else{
 	    System.out.println("Unknown command");
 	    chooseWhatToDo();
@@ -170,7 +184,7 @@ public class Implementation{
 	}
     }
 
-    //choose whether you want to shift symbols
+    //choose whether you want to shift non-alphanumeric symbols
     public static void chooseSwapSymbols(){
 	if(selector.equals("encrypt")){
 	    System.out.println("\nWould you like to shift non-alphanumeric symbols? <yes|no>");
