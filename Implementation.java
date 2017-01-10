@@ -3,7 +3,8 @@ import java.io.*;
 
 public class Implementation{
 
-    private static String selector, originalText, encryptedText, decryptedText, algoType;
+
+    private static String selector, originalText, modifiedText, algoType;
     private static boolean swapDigits, swapSymbols;
     private static int shift;
     private static Scanner sc;
@@ -13,8 +14,7 @@ public class Implementation{
 
     public static void terminal(){
 	originalText = "";
-	encryptedText = "";
-	decryptedText = "";
+	modifiedText = "";
 	sc = new Scanner(System.in);
 	chooseWhatToDo();
     }
@@ -48,7 +48,7 @@ public class Implementation{
 
     public static void createFile(String fileName){
 	
-	Cipher text = new Cipher(originalText, encryptedText, decryptedText, shift, swapDigits, swapSymbols, skips);
+	Cipher text = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
 	if(selector.equals("encrypt")){
 	    text.cipher();
 	}else if(selector.equals("decrypt")){
@@ -60,11 +60,7 @@ public class Implementation{
 
 	try{
 	    PrintWriter writer = new PrintWriter(fileName + ".txt", "UTF-8");
-	    if(selector.equals("encrypt")){
-		writer.println(text.getEncryptedText());
-	    }else if(selector.equals("decrypt")){
-		writer.println(text.getDecryptedText());
-	    }
+	    writer.println(text.getModifiedText());
 	    writer.close();
 	} catch (IOException e) {
 	    System.out.println("Unexpected Error");
@@ -126,7 +122,7 @@ public class Implementation{
 	    optionSymmetric();
 	}else{
 	    System.out.println("<Encryption not known!>");
-	    chooseEncryption();
+	    chooseDecryption();
 	}
     }
 
@@ -146,8 +142,6 @@ public class Implementation{
 
     //Cipher Encryption
     public static void optionCipher(){
-	System.out.println(originalText);
-	System.out.println(encryptedText);
 	chooseSwapDigit();
 	chooseSwapSymbols();
 	chooseShift();
