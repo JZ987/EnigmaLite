@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Cipher{
 
+    //fed from terminal
     private static String originalText = "";
 
     //fed from terminal
@@ -40,8 +41,9 @@ public class Cipher{
 
     public static char[] symbol = {'{', '`', '!', '[', '#', '$', '%', '^', '&', '*', '_', ')', '-', '(', '=', ',', '~', '+', '"', '@', '}', ';', '|', ']', ':' , '<', '.', '>', '/', '?'}; //unsupported chars: \ '
 
+
     //Constructor
-    public Cipher(String originalText,  String modifiedText, int shift, boolean swapDigits, boolean swapSymbols, ArrayList<Character> skips){
+    public Cipher(String originalText, String modifiedText, int shift, boolean swapDigits, boolean swapSymbols, ArrayList<Character> skips){
 	this.originalText = originalText;
 	this.modifiedText = modifiedText;
 	this.shift = shift;
@@ -58,6 +60,7 @@ public class Cipher{
     public static String getOriginalText(){
 	return originalText;
     }
+    
     //METHODS
 
     //Gets a string of text from a txt file
@@ -100,7 +103,7 @@ public class Cipher{
 	    
 	    //Returns spaces as spaces
 	    if(originalText.substring(p, p + 1).equals(" ")){
-		etext = etext + " ";
+		etext += " ";
 	    }
 	    	    
 	    //Cycles through the alphabet arrays replacing each letter in the
@@ -147,7 +150,7 @@ public class Cipher{
 	    
 	    //Catches unswitched chars
 	    if(switched == 0){
-		etext = etext + originalText.charAt(p);
+		etext += originalText.charAt(p);
 	    }
 
 	}//ends the wrapping for loop
@@ -163,19 +166,19 @@ public class Cipher{
 	String detext = "";
 	int switched = 0;
 
-	for(int p = 0; p < originalText.length(); p++){
+	for(int p = 0; p < encryptedText.length(); p++){
 	    
 	    //resets the switched checker
 	    switched = 0;
 	    
 	    //Returns spaces as spaces
-	    if(originalText.substring(p, p + 1).equals(" ")){
-		detext = detext + " ";
+	    if(encryptedText.substring(p, p + 1).equals(" ")){
+		detext += " ";
 	    }
 
 	    //checks if an element should be skipped over
-	    if(skips.contains(originalText.charAt(p))){
-		detext = detext + originalText.charAt(p);
+	    if(skips.contains(encryptedText.charAt(p))){
+		detext += encryptedText.charAt(p);
 		switched = 26;
 	    }
 	    
@@ -184,16 +187,16 @@ public class Cipher{
 
 	    //lowercase
 	    for(int i = 0; (i + switched) < 26; i++){
-		if(originalText.charAt(p) == (alphabet[i])){
-		    detext = detext + alphabet[(i + (26 - shift)) % 26];
+		if(encryptedText.charAt(p) == (alphabet[i])){
+		    detext += alphabet[(i + (26 - shift)) % 26];
 		    switched = 26;
 		}
 	    }
 
 	    //uppercase
 	    for(int i = 0; (i + switched) < 26; i++){
-		if(originalText.charAt(p) == (ALPHABET[i])){
-		    detext = detext + ALPHABET[(i + (26 - shift)) % 26];
+		if(encryptedText.charAt(p) == (ALPHABET[i])){
+		    detext += ALPHABET[(i + (26 - shift)) % 26];
 		    switched = 26;
 			}
 	    }
@@ -201,8 +204,8 @@ public class Cipher{
 	    //digits
 	    if(swapDigits && (switched != 26)){
 		for(int i = 0; i < 10; i++){
-		    if(originalText.charAt(p) == (digit[i])){
-			detext = detext + digit[(i + (10 - shift)) % 10];
+		    if(encryptedText.charAt(p) == (digit[i])){
+			detext += digit[(i + (10 - shift)) % 10];
 			switched = 26;
 		    }
 		}
@@ -211,8 +214,8 @@ public class Cipher{
 	    //symbols
 	    if(swapSymbols && (switched != 26)){
 		for(int i = 0; i < 30; i++){
-		    if(originalText.charAt(p) == (symbol[i])){
-			detext = detext + symbol[(i + (30 - shift)) % 30];
+		    if(encryptedText.charAt(p) == (symbol[i])){
+			detext += symbol[(i + (30 - shift)) % 30];
 			switched = 26;
 		    }
 		}
@@ -220,7 +223,7 @@ public class Cipher{
 
 	    //Catches unswitched chars
 	    if(switched == 0){
-		detext = detext + originalText.charAt(p);
+		detext += encryptedText.charAt(p);
 	    }
 	    
 	}//ends wrapping for loop
@@ -228,6 +231,18 @@ public class Cipher{
 	modifiedText = detext;
     }
 
+    public static String getEncryptedText(){
+	return encryptedText;
+    }
+    
+    public static String getDecryptedText(){
+	return decryptedText;
+    }
+
+    public static String getOriginalText(){
+	return originalText;
+    }
+    
     //MAIN FOR TESTING
     public static void main(String[]args){
 	if(!(args.length < 15)){
@@ -276,6 +291,4 @@ public class Cipher{
 	System.out.println(modifiedText);
 
     }
-
-   
 }

@@ -3,6 +3,7 @@ import java.io.*;
 
 public class Implementation{
 
+
     private static String selector, originalText, modifiedText, algoType;
     private static boolean swapDigits, swapSymbols;
     private static int shift;
