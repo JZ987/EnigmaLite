@@ -2,7 +2,7 @@ import java.util. *;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Cipher/* extends Implementation*/{
+public class Cipher/*extends Implementation*/{
 
     ///*
     //fed from terminal
@@ -30,7 +30,6 @@ public class Cipher/* extends Implementation*/{
     private static Boolean swapSymbols;
 
     //fed from terminal
-    //not implemented yet
     private static char assignSpace;//allows the user to assign a symbol to
     //replace 'space'. This symbol is then added to the skip list.
     //*/
@@ -65,7 +64,8 @@ public class Cipher/* extends Implementation*/{
     }
     
     
-    //ENCRYPTION METHODS
+    //*****METHODS*****
+
     //Enciphers the data in the originalText variable
     public static void cipher(){
 	String etext = "";
@@ -208,14 +208,15 @@ public class Cipher/* extends Implementation*/{
 		}
 	    }
 
-	    //Catches unswitched chars and makes sure they are not omitted
+	    //Catches unswitched chars
 	    if(switched == 0){
-		detext = detext + originalText.charAt(p);
+		detext += originalText.charAt(p);
 	    }
 	    
 	}//ends wrapping for loop
+        
 	modifiedText = detext;
     }
     
-    //END
+    //end
 }

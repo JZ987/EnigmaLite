@@ -158,8 +158,13 @@ public class Implementation{
 
 	//concluding message
 	String input = sc.nextLine();
+	if(input.equals("")){
+	    System.out.println("Please choose a filename");
+	    chooseEncryptedFileName();
+	}else{
 	System.out.println("\nGreat Job!!! Your coded file was successfully created and placed in the folder EnigmaLitebin.");
 	createFile(input);
+	}
     }
 
     //Cipher Encryption
