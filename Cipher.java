@@ -2,8 +2,9 @@ import java.util. *;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Cipher extends Implementation{
-    /*
+public class Cipher/* extends Implementation*/{
+
+    ///*
     //fed from terminal
     private static String originalText = "";
 
@@ -29,9 +30,10 @@ public class Cipher extends Implementation{
     private static Boolean swapSymbols;
 
     //fed from terminal
+    //not implemented yet
     private static char assignSpace;//allows the user to assign a symbol to
     //replace 'space'. This symbol is then added to the skip list.
-    */
+    //*/
 
     //Reference library arrays
     public static char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
@@ -53,25 +55,17 @@ public class Cipher extends Implementation{
 	this.skips = skips;
     }
 
+    //Accessor Methods
+    public static String getOriginalText(){
+	return originalText;
+    }
+
+    public static String getModifiedText(){
+	return modifiedText;
+    }
+    
     
     //METHODS
-
-    //Gets a string of text from a txt file
-    //parses config file
-    //For testing purposes. Move to abstract class
-     public static void getText(){
-	try{
-	    Scanner in = new Scanner(new File(file));
-	    for(int p = 0; in.hasNext(); p++){
-		String word = in.next();
-		originalText += word + " ";
-	    }
-	}catch(FileNotFoundException e){
-	    System.out.println("Invalid filename or path");
-	    System.exit(1);
-	}
-     }
-
     //Enciphers the data in the originalText variable
     public static void cipher(){
 	String etext = "";
@@ -180,7 +174,7 @@ public class Cipher extends Implementation{
 
 	    //lowercase
 	    for(int i = 0; (i + switched) < 26; i++){
-		if(encryptedText.charAt(p) == (alphabet[i])){
+		if(originalText.charAt(p) == (alphabet[i])){
 		    detext += alphabet[(i + (26 - shift)) % 26];
 		    switched = 26;
 		}
@@ -197,7 +191,7 @@ public class Cipher extends Implementation{
 	    //digits
 	    if(swapDigits && (switched != 26)){
 		for(int i = 0; i < 10; i++){
-		    if(origina;Text.charAt(p) == (digit[i])){
+		    if(originalText.charAt(p) == (digit[i])){
 			detext += digit[(i + (10 - shift)) % 10];
 			switched = 26;
 		    }
