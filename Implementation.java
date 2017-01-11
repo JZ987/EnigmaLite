@@ -37,28 +37,15 @@ public class Implementation{
 
     //gets text from a specified file
     public static void getText(String file){
-	if(selector.equals("encrypt")){
-	    try{
-		Scanner in = new Scanner(new File(file));
-		for(int p = 0; in.hasNext(); p++){
-		    String word = in.next();
-		    originalText += word + " ";
-		}
-	    }catch(FileNotFoundException e){
-		System.out.println("Invalid filename or path!");
-		chooseFile();
+	try{
+	    Scanner in = new Scanner(new File(file));
+	    for(int p = 0; in.hasNext(); p++){
+		String word = in.next();
+		originalText += word + " ";
 	    }
-	}else if(selector.equals("decrypt")){
-	    try{
-		Scanner in = new Scanner(new File(file));
-		for(int p = 0; in.hasNext(); p++){
-		    String word = in.next();
-		    modifiedText += word + " ";
-		}
-	    }catch(FileNotFoundException e){
-		System.out.println("Invalid filename or path!");
-		chooseFile();
-	    }
+	}catch(FileNotFoundException e){
+	    System.out.println("Invalid filename or path!");
+	    chooseFile();
 	}
     }
 
@@ -67,11 +54,11 @@ public class Implementation{
     public static void createFile(String fileName){
 	Cipher text = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
 	if(selector.equals("encrypt")){
-	    text.cipher();
+	    text.encrypt();
 	}else if(selector.equals("decrypt")){
-	    text.decipher();
+	    text.decrypt();
 	}else{
-	    System.out.println("Error, restart from chooseWhatToDo");
+	    System.out.println("Error, unable to parse text. Restart from chooseWhatToDo");
 	    chooseWhatToDo();
 	}
 	//Writes the file to the EnigmaLite folder
@@ -80,7 +67,7 @@ public class Implementation{
 	    writer.println(text.getModifiedText());
 	    writer.close();
 	} catch (IOException e) {
-	    System.out.println("Unexpected Error: Invalid Input");
+	    System.out.println("Unexpected Error: Unable to write to file");
 	    System.exit(1);
 	}	    
     }
@@ -89,10 +76,10 @@ public class Implementation{
     public static void chooseWhatToDo(){
 	System.out.println("\nDo you want to <Encrypt> or <Decrypt> your file?");
 	String input = sc.nextLine();
-	if(input.equals("Encrypt") || input.equals("encrypt")){
+	if(input.equals("Encrypt") || input.equals("encrypt") || input.equals("e")){
 	    selector = "encrypt";
 	    chooseEncryption();
-	}else if(input.equals("Decrypt") || input.equals("decrypt")){
+	}else if(input.equals("Decrypt") || input.equals("decrypt") || input.equals("d")){
 	    selector = "decrypt";
 	    chooseDecryption();
 	    /*
@@ -105,12 +92,15 @@ public class Implementation{
 	}
     }
 
-    //input the text file
+    //input the text location of the file
     public static void chooseFile(){
 	if(selector.equals("encrypt")){
 	    System.out.println("\nInput the location of the text file you want to be encrypted:");
 	}else if(selector.equals("decrypt")){
 	    System.out.println("\nInput the location of the text file you want to be decrypted:");
+	    /*
+	      }else if(getText().equals("back") || getText(sc.nextLine()).equals("Back") || getText(sc.nextLine()).equals("b") || getText(sc.nextLine()).equals("BACK")){*/
+	    chooseEncryption();
 	}
 	getText(sc.nextLine());
     }
@@ -119,13 +109,15 @@ public class Implementation{
     public static void chooseEncryption(){
 	System.out.println("\nWhich encryption method do you want to use? [Cipher | Symmetric]");
 	String input = sc.nextLine();
-	if(input.equals("Cipher") || input.equals("cipher")){
+	if(input.equals("Cipher") || input.equals("cipher") || input.equals("c")){
 	    chooseFile();
 	    optionCipher();
-	}else if(input.equals("Symmetric") || input.equals("symmetric")){
+	}else if(input.equals("Symmetric") || input.equals("symmetric") || input.equals("s")){
 	    chooseFile();
 	    optionSymmetric();
-	}else{
+	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
+	    chooseWhatToDo();
+        }else{
 	    System.out.println("<Encryption not known!>");
 	    chooseEncryption();
 	}
@@ -135,13 +127,15 @@ public class Implementation{
     public static void chooseDecryption(){
 	System.out.println("\nWhich decryption method do you want to use? [Cipher | Symmetric]");
 	String input = sc.nextLine();
-	if(input.equals("Cipher") || input.equals("cipher")){
+	if(input.equals("Cipher") || input.equals("cipher") || input.equals("c")){
 	    chooseFile();
 	    optionCipher();
-	}else if(input.equals("Symmetric") || input.equals("symmetric")){
+	}else if(input.equals("Symmetric") || input.equals("symmetric") || input.equals("s")){
 	    chooseFile();
 	    optionSymmetric();
-	}else{
+	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
+	    chooseFile();
+        }else{
 	    System.out.println("<Encryption not known!>");
 	    chooseDecryption();
 	}
@@ -155,12 +149,13 @@ public class Implementation{
 	}else if(selector.equals("decrypt")){
 	    System.out.println("\nWhat would you like the decrypted file name to be? (You don't need to put .txt)");
 	}
-
 	//concluding message
 	String input = sc.nextLine();
 	if(input.equals("")){
 	    System.out.println("Please choose a filename");
 	    chooseEncryptedFileName();
+	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
+	    chooseFile();
 	}else{
 	System.out.println("\nGreat Job!!! Your coded file was successfully created and placed in the folder EnigmaLitebin.");
 	createFile(input);
@@ -187,10 +182,12 @@ public class Implementation{
 	    System.out.println("\nDid you shift number symbols? <yes|no>");
 	}
 	String input = sc.nextLine();
-	if(input.equals("yes") || input.equals("y")){
+	if(input.equals("yes") || input.equals("y") || input.equals("Yes") || (input.equals("Yes")) || (input.equals("YES"))){
 	    swapDigits = true;
-	}else if(input.equals("no") || input.equals("n")){
+	}else if(input.equals("no") || input.equals("n") || input.equals("No") || (input.equals("No")) || (input.equals("NO"))){
 	    swapDigits = false;
+	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
+	    chooseFile();
 	}else{
 	    System.out.println("Please type either <yes> or <no>");
 	    chooseSwapDigit();
@@ -205,11 +202,13 @@ public class Implementation{
 	    System.out.println("\nDid you shift non-alphanumeric symbols? <yes|no>");
 	}
 	String input = sc.nextLine();
-	if(input.equals("yes") || (input.equals("y"))){
+	if(input.equals("yes") || (input.equals("y")) || (input.equals("Yes")) || (input.equals("YES"))){
 	    swapSymbols = true;
-	}else if(input.equals("no") || input.equals("n")){
+	}else if(input.equals("no") || input.equals("n") || (input.equals("No")) || (input.equals("NO"))){
 	    swapSymbols = false;
-	}else{
+	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
+	    chooseFile();
+        }else{
 	    System.out.println("Please type either <yes> or <no>");
 	    chooseSwapSymbols();
 	}
@@ -221,11 +220,13 @@ public class Implementation{
 	    System.out.println("\nHow many shifts do you want?");
 	}else if(selector.equals("decrypt")){
 	    System.out.println("\nBy how much did you shift your symbols?");
+	}else if(selector.equals("back") || selector.equals("Back") || selector.equals("b") || selector.equals("BACK")){
+	    chooseFile();
 	}
 	try{
 	    shift = Integer.parseInt(sc.nextLine());
 	}catch(NumberFormatException e){
-	    System.out.println("Please type numbers!");
+	    System.out.println("Please type an integer!");
 	    chooseShift();
 	}
     }
@@ -238,14 +239,17 @@ public class Implementation{
 	    System.out.println("\nDid you skip certain symbols? <yes|no>");
 	}
 	String input = sc.nextLine();
-	if(input.equals("yes") || (input.equals("y"))){
+	if(input.equals("yes") || (input.equals("y")) || (input.equals("Yes")) || (input.equals("YES"))){
 	    return true;
-	}else if(input.equals("no") || input.equals("n")){
+	}else if(input.equals("no") || input.equals("n") || (input.equals("No") || (input.equals("NO")))){
 	    return false;
-	}else{
+	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
+	    chooseFile();
+        }else{
 	    System.out.println("Please pick either <yes> or <no>");
 	    return chooseSkipping();
 	}
+	return chooseSkipping();
     }
 
     //if chooseSkipping is true

@@ -67,7 +67,7 @@ public class Cipher/*extends Implementation*/{
     //*****METHODS*****
 
     //Enciphers the data in the originalText variable
-    public static void cipher(){
+    public static void encrypt(){
 	String etext = "";
 	int switched = 0;
 	
@@ -149,7 +149,7 @@ public class Cipher/*extends Implementation*/{
     //encrypted originalText.
     //Assumes the encrypted text is encrypted using the shift and skips
     //recieved as parameters.
-    public static void decipher(){
+    public static void decrypt(){
 	String detext = "";
 	int switched = 0;
 
