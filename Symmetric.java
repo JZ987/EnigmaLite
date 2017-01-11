@@ -7,7 +7,7 @@ import javax.crypto.spec.*;
 
 public class Symmetric{
 
-    /*private static String algoType, originalText, modifiedText, exampleText;
+    private static String algoType, originalText, modifiedText, exampleText;
     private static SecretKey key;
     private static byte[] unModKey;
     private static Cipher desCipher;
@@ -27,7 +27,7 @@ public class Symmetric{
     
     public static void encrypt(){
 	try{
-	    byte[] text = originalText.getBytes("UTF-8");
+	    byte[] text = originalText.getBytes("UTF8");
 
 	    desCipher.init(Cipher.ENCRYPT_MODE, key);
 	    byte[] textEncrypted = desCipher.doFinal(text);
@@ -43,14 +43,9 @@ public class Symmetric{
 
     public static void decrypt(){
 	try{
-	    byte[] text = modifiedText.getBytes("UTF-8");
+	    byte[] text = modifiedText.getBytes("UTF8");
 	    
 	    desCipher.init(Cipher.DECRYPT_MODE, key);
-	    byte[] textDecrypted = desCipher.doFinal(originalText.getBytes("UTF8"));
-
-	    String output = new String(textDecrypted);
-
-	    modifiedText = output;
 	    byte[] textDecrypted = desCipher.doFinal(text);
 
 	    String output = new String(textDecrypted);
@@ -64,11 +59,11 @@ public class Symmetric{
     public static void main(String[] args) {
 
 
-	Symmetric s = new Symmetric("Hello World", "", "DES");
+	Symmetric s = new Symmetric("Hello world", "", "DES");
 
-	/*
+	
 
-	Symmetric s = new Symmetric("No body can see me.", "", "AES/CBC/PKCS5Padding");
+	//Symmetric s = new Symmetric("No body can see me.", "", "AES/CBC/PKCS5Padding");
 
 	try{
 	    KeyGenerator keygenerator = KeyGenerator.getInstance(algoType);
@@ -80,12 +75,12 @@ public class Symmetric{
 	}
 
 	
-
+	/*
 	// create new key
 	SecretKey secretKey = KeyGenerator.getInstance(algoType).generateKey();
 	// get base64 encoded version of the key
 	String encodedKey = Base64.getEncoder().encodeToString(secretKey.getEncoded());
-
+	*/
 	
 
 	System.out.println(key);
@@ -101,16 +96,17 @@ public class Symmetric{
 	System.out.println("------------------------------------");
 
 	s.decrypt();
-	System.out.println(modifiedText);
+	System.out.println(exampleText);
+    }
 	
 	/* try{
             KeyGenerator keygenerator = KeyGenerator.getInstance("DES");
             SecretKey myDesKey = keygenerator.generateKey();
 
-	System.out.println(exampleText);*/
+	    System.out.println(exampleText);*/
 
 
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 	    
 	    try{
 		KeyGenerator keygenerator = KeyGenerator.getInstance("DES");
@@ -123,7 +119,7 @@ public class Symmetric{
 		desCipher = Cipher.getInstance("DES");
 
 		
-		byte[] text = "No body can see me.".getBytes("UTF8");
+		byte[] text = "No body can see me  gsdgs.".getBytes("UTF8");
 
 
 		desCipher.init(Cipher.ENCRYPT_MODE, myDesKey);
@@ -144,6 +140,6 @@ public class Symmetric{
 		    System.out.println("Exception");
 		}
 	    
-	}
+	}*/
 }
 

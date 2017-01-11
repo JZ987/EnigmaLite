@@ -37,28 +37,15 @@ public class Implementation{
 
     //gets text from a specified file
     public static void getText(String file){
-	if(selector.equals("encrypt")){
-	    try{
-		Scanner in = new Scanner(new File(file));
-		for(int p = 0; in.hasNext(); p++){
-		    String word = in.next();
-		    originalText += word + " ";
-		}
-	    }catch(FileNotFoundException e){
-		System.out.println("Invalid filename or path!");
-		chooseFile();
+	try{
+	    Scanner in = new Scanner(new File(file));
+	    for(int p = 0; in.hasNext(); p++){
+		String word = in.next();
+		originalText += word + " ";
 	    }
-	}else if(selector.equals("decrypt")){
-	    try{
-		Scanner in = new Scanner(new File(file));
-		for(int p = 0; in.hasNext(); p++){
-		    String word = in.next();
-		    modifiedText += word + " ";
-		}
-	    }catch(FileNotFoundException e){
-		System.out.println("Invalid filename or path!");
-		chooseFile();
-	    }
+	}catch(FileNotFoundException e){
+	    System.out.println("Invalid filename or path!");
+	    chooseFile();
 	}
     }
 
