@@ -4,7 +4,7 @@ import java.io.*;
 public class Implementation{
 
 
-    private static String selector, originalText, modifiedText, algoType;
+    private static String selector, method, originalText, modifiedText, algoType, password;
     private static boolean swapDigits, swapSymbols;
     private static int shift;
     private static Scanner sc;
@@ -52,20 +52,38 @@ public class Implementation{
     //creates the file and runs the selected methods from cipher to create
     //the encoded/decoded text
     public static void createFile(String fileName){
-	Cipher text = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
-	if(selector.equals("encrypt")){
-	    text.cipher();
-	}else if(selector.equals("decrypt")){
-	    text.decipher();
-	}else{
-	    System.out.println("Error, restart from chooseWhatToDo");
-	    chooseWhatToDo();
+	Cipher cipher = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
+	Symmetric symmetric = new Symmetric(originalText, modifiedText, algoType);
+	
+	if(method.equals("cipher")){
+	    if(selector.equals("encrypt")){
+		cipher.cipher();
+	    }else if(selector.equals("decrypt")){
+		cipher.decipher();
+	    }else{
+		System.out.println("Error, restart from chooseWhatToDo");
+		chooseWhatToDo();
+	    }
+	}else if(method.equals("symmetric")){
+	    if(selector.equals("encrypt")){
+		symmetric.encrypt();
+	    }else if(selector.equals("decrypt")){
+		symmetric.decrypt();
+	    }else{
+		System.out.println("Error, restart from chooseWhatToDo");
+	    }
 	}
+	
 	//Writes the file to the EnigmaLite folder
 	try{
 	    PrintWriter writer = new PrintWriter("EnigmaLitebin/" + fileName + ".txt", "UTF-8");
-	    writer.println(text.getModifiedText());
+	    if(method.equals("cipher")){
+		writer.println(cipher.getModifiedText());
+	    }else if(method.equals("symmetric")){
+		writer.println(symmetric.getModifiedText());
+	    }
 	    writer.close();
+	    System.out.println("\nGreat Job!!! Your coded file was successfully created and placed in the folder EnigmaLitebin.");
 	} catch (IOException e) {
 	    System.out.println("Unexpected Error: Invalid Input");
 	    System.exit(1);
@@ -81,7 +99,7 @@ public class Implementation{
 	    chooseEncryption();
 	}else if(input.equals("Decrypt") || input.equals("decrypt")){
 	    selector = "decrypt";
-	    chooseDecryption();
+	    chooseEncryption();
 	    /*
 	}else if(input.equals("debug")){
 	    cipherDebug();
@@ -104,33 +122,23 @@ public class Implementation{
 
     //choose which type of encryption do you want to use
     public static void chooseEncryption(){
-	System.out.println("\nWhich encryption method do you want to use? [Cipher | Symmetric]");
+	if(selector.equals("encrypt")){
+	    System.out.println("\nWhich encryption method do you want to use? [Cipher | Symmetric]");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nWhich decryption method do you want to use? [Cipher | Symmetric]");
+	}
 	String input = sc.nextLine();
 	if(input.equals("Cipher") || input.equals("cipher")){
+	    method = "cipher";
 	    chooseFile();
 	    optionCipher();
 	}else if(input.equals("Symmetric") || input.equals("symmetric")){
+	    method = "symmetric";
 	    chooseFile();
 	    optionSymmetric();
 	}else{
 	    System.out.println("<Encryption not known!>");
 	    chooseEncryption();
-	}
-    }
-
-    //choose which type of decryption do you want to use
-    public static void chooseDecryption(){
-	System.out.println("\nWhich decryption method do you want to use? [Cipher | Symmetric]");
-	String input = sc.nextLine();
-	if(input.equals("Cipher") || input.equals("cipher")){
-	    chooseFile();
-	    optionCipher();
-	}else if(input.equals("Symmetric") || input.equals("symmetric")){
-	    chooseFile();
-	    optionSymmetric();
-	}else{
-	    System.out.println("<Encryption not known!>");
-	    chooseDecryption();
 	}
     }
 
@@ -149,8 +157,7 @@ public class Implementation{
 	    System.out.println("Please choose a filename");
 	    chooseEncryptedFileName();
 	}else{
-	System.out.println("\nGreat Job!!! Your coded file was successfully created and placed in the folder EnigmaLitebin.");
-	createFile(input);
+	    createFile(input);
 	}
     }
 
@@ -192,7 +199,7 @@ public class Implementation{
 	    System.out.println("\nDid you shift non-alphanumeric symbols? <yes|no>");
 	}
 	String input = sc.nextLine();
-	if(input.equals("yes") || (input.equals("y"))){
+	if(input.equals("yes") || input.equals("y")){
 	    swapSymbols = true;
 	}else if(input.equals("no") || input.equals("n")){
 	    swapSymbols = false;
@@ -225,7 +232,7 @@ public class Implementation{
 	    System.out.println("\nDid you skip certain symbols? <yes|no>");
 	}
 	String input = sc.nextLine();
-	if(input.equals("yes") || (input.equals("y"))){
+	if(input.equals("yes") || input.equals("y")){
 	    return true;
 	}else if(input.equals("no") || input.equals("n")){
 	    return false;
@@ -252,8 +259,21 @@ public class Implementation{
 
     
     public static void optionSymmetric(){
-	System.out.println("\nWhich algorithm do you want to use?");
-	System.out.println("1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)HmacMD5 7)RC2 [input the number]");
+	chooseAlgorithm();
+	if(selector.equals("encrypt")){
+	    System.out.println("\nYour password will be generated randomly at the end.");
+	    System.out.println("<Making your own password will be implemented on a later note>");
+	}
+	chooseEncryptedFileName();
+    }
+
+    public static void chooseAlgorithm(){
+	if(selector.equals("encrypt")){
+	    System.out.println("\nWhich algorithm do you want to use?");
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nWhich algorithm did you use to encrypt the text?");
+	}
+	System.out.println("\n1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)HmacMD5 7)RC2 [input the number]");
 	String input = sc.nextLine();
 	if(input.equals("1")){
 	    algoType = "AES";
@@ -270,10 +290,36 @@ public class Implementation{
 	}else if(input.equals("7")){
 	    algoType = "RC2";
 	}else{
-	    System.out.println("Please input a number corresponding with the algorithm you want to use");
-	    optionSymmetric();
+	    System.out.println("Please input a number corresponding with the algorithm you want to use!");
+	    chooseAlgorithm();
 	}
     }
 
+
+    /*public static void choosePassword(){
+	if(selector.equals("encrypt")){
+	    System.out.println("\nDo you want to make your own password or generate a random one? <make> or <generate>");
+	    String input = sc.nextLine();
+	    if(input.equals("make")){
+		System.out.println("Please don't type your password: ");
+		password = sc.nextLine();
+		System.out.println("Retype password: ");
+		if(sc.nextLine().equals(password)){
+		    System.out.println("Password created!!");
+		}else{
+		    System.out.println("Mismatch password!!");
+		    choosePassword();
+		}
+	    }else if(input.equals("generate")){
+		System.out.println("\nYour password will be given at the end");
+		}
+	}else if(selector.equals("decrypt")){
+	    System.out.println("\nInput the password: ");
+	    password = sc.nextLine();
+	}else{
+	    System.out.println("Unknown command! Please input <make> or <generate>");
+	    choosePassword();
+	}
+	}*/
     //END
 }
