@@ -36,19 +36,35 @@ public class Implementation{
     }
 
     //gets text from a specified file
-    public static void getText(String file){
+    /*public static void getText(String file){
 	try{
 	    Scanner in = new Scanner(new File(file));
 	    for(int p = 0; in.hasNext(); p++){
-		String word = in.next();
+		String word = in.nextLine();
 		originalText += word + " ";
 	    }
 	}catch(FileNotFoundException e){
 	    System.out.println("Invalid filename or path!");
 	    chooseFile();
 	}
+	}*/
+
+    public static void getText(String file){
+	try{
+	    Reader reader = new InputStreamReader(new FileInputStream(file));
+	    StringBuilder stringBuffer = new StringBuilder();
+	    char[] buff = new char[500];
+	    for (int charsRead; (charsRead = reader.read(buff)) != -1; ) {
+		stringBuffer.append(buff, 0, charsRead);
+	    }
+	    originalText = stringBuffer.toString();
+	}catch(Exception e){
+	    System.out.println("Wrong path");
+	    getText(file);
+	}
     }
 
+    
     //creates the file and runs the selected methods from cipher to create
     //the encoded/decoded text
     public static void createFile(String fileName){
