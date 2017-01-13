@@ -65,7 +65,7 @@ public class Cipher/*extends Implementation*/{
     
     //*****METHODS*****
     //Enciphers the data in the originalText variable
-    public static void cipher(){
+    public static void encrypt(){
 	String etext = "";
 	int switched = 0;
 	
@@ -87,9 +87,9 @@ public class Cipher/*extends Implementation*/{
 	    }
 	    
 	    //Returns spaces as spaces
-	    if(originalText.substring(p, p + 1).equals(" ")){
-		etext += " ";
-	    }
+	    //if(originalText.substring(p, p + 1).equals(" ")){
+	    //	etext += " ";
+	    //}
 	    	    
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
@@ -132,7 +132,12 @@ public class Cipher/*extends Implementation*/{
 		    }
 		}
 	    }
-	    
+
+	    //adds newlines back into text
+	    if(originalText.substring(p. p + 1) == System.lineSeparator()){
+		etext = etext + System.lineSeparator();
+	    }
+
 	    //Catches unswitched chars
 	    if(switched == 0){
 		etext += originalText.charAt(p);
@@ -147,7 +152,7 @@ public class Cipher/*extends Implementation*/{
     //encrypted originalText.
     //Assumes the encrypted text is encrypted using the shift and skips
     //recieved as parameters.
-    public static void decipher(){
+    public static void decrypt(){
 	String detext = "";
 	int switched = 0;
 

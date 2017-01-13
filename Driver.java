@@ -36,7 +36,7 @@ public class Driver extends Implementation{
 	clearScreen();
 	
         System.out.println("Which interface do you want to use? [GUI/Terminal]");
-	System.out.println("(GUI not currently available)");
+	System.out.println("(GUI not currently available. Coming Soon!)");
 
 	chooseOne();
     }
