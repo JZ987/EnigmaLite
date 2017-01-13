@@ -60,7 +60,7 @@ public class Implementation{
 	    originalText = stringBuffer.toString();
 	}catch(Exception e){
 	    System.out.println("Wrong path");
-	    getText(file);
+	    chooseFile();
 	}
     }
 
