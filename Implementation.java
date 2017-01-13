@@ -113,6 +113,7 @@ public class Implementation{
 	String input = sc.nextLine();
 	if(input.equals("Cipher") || input.equals("cipher") || input.equals("c")){
 	    chooseFile();
+	    skips = new ArrayList<Character>();
 	    chooseSwapDigit();
 	    //optionCipher();
 	}else if(input.equals("Symmetric") || input.equals("symmetric") || input.equals("s")){
@@ -158,7 +159,7 @@ public class Implementation{
 	    System.out.println("Please choose a filename");
 	    chooseEncryptedFileName();
 	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
-	    chooseSkipSymbol();
+	    chooseSkipping();
 	    return;
 	}else{
 	System.out.println("\nGreat Job!!! Your coded file was successfully created and placed in the folder EnigmaLitebin.");
@@ -176,7 +177,8 @@ public class Implementation{
 	    chooseSkipSymbol();
 	}
 	chooseEncryptedFileName();
-	}*/
+    }
+    */
 
     //choose whether you want to shift numbers
     public static void chooseSwapDigit(){
@@ -278,6 +280,7 @@ public class Implementation{
 	    chooseSkipping();
 	}else{
 	    for (char c : input.toCharArray()) {
+		//System.out.println
 		skips.add(c);
 	    }
 	}
