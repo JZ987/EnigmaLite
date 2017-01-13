@@ -41,7 +41,10 @@ public class Implementation{
 	    Scanner in = new Scanner(new File(file));
 	    for(int p = 0; in.hasNext(); p++){
 		String word = in.next();
-		originalText += word + " ";
+		originalText = originalText +  word + " ";
+		//if(in.next() == System.lineSeparator()){
+		//  originalText = originalText + System.lineSeparator();
+		//}
 	    }
 	}catch(FileNotFoundException e){
 	    System.out.println("Invalid filename or path!");
@@ -279,10 +282,10 @@ public class Implementation{
 	if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
 	    chooseSkipping();
 	}else{
-	    for (char c : input.toCharArray()) {
-		//System.out.println
+	    for (char c : input.toCharArray()){
 		skips.add(c);
 	    }
+	    chooseEncryptedFileName();
 	}
     }
 

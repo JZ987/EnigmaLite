@@ -89,9 +89,9 @@ public class Cipher/*extends Implementation*/{
 	    }
 	    
 	    //Returns spaces as spaces
-	    if(originalText.substring(p, p + 1).equals(" ")){
-		etext += " ";
-	    }
+	    //if(originalText.substring(p, p + 1).equals(" ")){
+	    //	etext += " ";
+	    //}
 	    	    
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
@@ -134,7 +134,12 @@ public class Cipher/*extends Implementation*/{
 		    }
 		}
 	    }
-	    
+
+	    //adds newlines back into text
+	    if(originalText.substring(p. p + 1) == System.lineSeparator()){
+		etext = etext + System.lineSeparator();
+	    }
+
 	    //Catches unswitched chars
 	    if(switched == 0){
 		etext += originalText.charAt(p);
