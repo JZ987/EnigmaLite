@@ -134,7 +134,7 @@ public class Cipher/*extends Implementation*/{
 	    }
 
 	    //adds newlines back into text
-	    if(originalText.substring(p. p + 1) == System.lineSeparator()){
+	    if(originalText.substring(p, p + 1) == System.lineSeparator()){
 		etext = etext + System.lineSeparator();
 	    }
 
