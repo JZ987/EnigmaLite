@@ -49,6 +49,7 @@ public class Implementation{
 	    System.out.println("Wrong path");
 	    chooseFile();
 	}
+    }
 
     
     //creates the file and runs the selected methods from cipher to create
@@ -59,9 +60,9 @@ public class Implementation{
 	
 	if(method.equals("cipher")){
 	    if(selector.equals("encrypt")){
-		cipher.cipher();
+		cipher.encrypt();
 	    }else if(selector.equals("decrypt")){
-		cipher.decipher();
+		cipher.decrypt();
 	    }else{
 		System.out.println("Error, restart from chooseWhatToDo");
 		chooseWhatToDo();
