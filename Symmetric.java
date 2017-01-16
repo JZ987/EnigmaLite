@@ -1,138 +1,98 @@
-/*import java.util. *;
-import java.io.*;
+import java.util.Base64;
+import javax.crypto.*;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-
-
-//Uses a single key to encrypt and decrypt data
-public class Symmetric{
-
-    public static void main(String[] args){
-
-	try{
-	    KeyGenerator keygen = KeyGenerator.getInstance("DES");
-	    SecretKey myKey = keygenerator.generateKey();
-
-	    Cipher desCipher;
-	    desCipher = Cipher.getInstance("DES");
-
-	    byte[] text = "No body can see me.".getBytes("UTF8");
-	}
-    
-
-	}*/
-
-
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
+import javax.crypto.spec.*;
+import java.util.Scanner;
 
 public class Symmetric{
 
-    private static String algoType, originalText, modifiedText;
+    private static String originalText, modifiedText, algoType, stringKey;
     private static SecretKey key;
+    private static byte[] decodedKey;
+    private static Cipher desCipher;
 
     
     public Symmetric(String originalText, String modifiedText, String algoType){
 	this.originalText = originalText;
 	this.modifiedText = modifiedText;
 	this.algoType = algoType;
-	
-    }
-
-    public static void encrypt(){
 	try{
-	    KeyGenerator keygenerator = KeyGenerator.getInstance(algoType);
-	    SecretKey myDesKey = keygenerator.generateKey();
-	    key = myDesKey;
-	    
-	    System.out.println(myDesKey);
-	    
-	    Cipher desCipher;
 	    desCipher = Cipher.getInstance(algoType);
-
-	    byte[] text = originalText.getBytes("UTF8");
-
-	    desCipher.init(Cipher.ENCRYPT_MODE, myDesKey);
-	    byte[] textEncrypted = desCipher.doFinal(text);
-
-	    String output = new String(textEncrypted);
-
-	    encryptedText = output;
 	}catch(Exception e){
-	    System.out.println("You failed");
+	    System.out.println("Sad");
 	}
     }
 
-    public static void decrypt(){
+    
+    public static void convertToKey(String keystring){
 	try{
-	    Cipher desCipher;
-	    desCipher = Cipher.getInstance(algoType);
-
-	    desCipher.init(Cipher.DECRYPT_MODE, key);
-	    byte[] textDecrypted = desCipher.doFinal(encryptedText.getBytes("UTF8"));
-
-	    String output = new String(textDecrypted);
-
-	    decryptedText = output;
+	    decodedKey = Base64.getDecoder().decode(keystring);
+	    key = new SecretKeySpec(decodedKey, algoType);
+	    //key = new SecretKeySpec(decodedKey, 0, decodedKey.length, algoType);
 	}catch(Exception e){
+	    System.out.println("Bad key!!");
+	}
+    }
+
+
+    public static void generateKey(){
+	try{
+	    // create new key
+	    SecretKey secretKey = KeyGenerator.getInstance(algoType).generateKey();
+	    key = secretKey;
+	    // get base64 encoded version of the key
+	    String encodedKey = Base64.getEncoder().withoutPadding().encodeToString(secretKey.getEncoded());
+	    stringKey = encodedKey;
+	}catch(Exception e){
+	    System.out.println("You suck");
 	    System.out.println(e);
 	}
     }
+
+    
+    //Encrypting a text file with a key
+    public static void encrypt(){
+	generateKey();
+	System.out.println("\nYour password will be: " + stringKey);
+	try{
+	    byte[] text = originalText.getBytes("UTF-8");
+
+	    desCipher.init(Cipher.ENCRYPT_MODE, key);
 	    
-    public static void main(String[] args) {
-
-	Symmetric s = new Symmetric("Hello World", "", "", "DES");
-
-	// create new key
-	SecretKey secretKey = KeyGenerator.getInstance("DES").generateKey();
-	// get base64 encoded version of the key
-	String encodedKey = Base64.getEncoder().encodeToString(secretKey.getEncoded());
-
-	
-	System.out.println(encryptedText);
-	System.out.println("------------------------------------");
-	
-	s.encrypt();
-
-	System.out.println(encryptedText);
-
-	System.out.println("------------------------------------");
-
-	s.decrypt();
-	System.out.println(decryptedText);
-	
-	/* try{
-            KeyGenerator keygenerator = KeyGenerator.getInstance("DES");
-            SecretKey myDesKey = keygenerator.generateKey();
-
-	    System.out.println(myDesKey);
-	    
-            Cipher desCipher;
-            desCipher = Cipher.getInstance("DES");
+	    modifiedText = Base64.getEncoder().withoutPadding().encodeToString(desCipher.doFinal(text));
+	}catch(Exception e){
+	    System.out.println("Encryption failed due to: ");
+	    System.out.print(e);
+	}
+    }
 
 
-            byte[] text = "No body can see me.".getBytes("UTF8");
+    
+    //Decrypting an encrypted text file with the proper key
+    public static void decrypt(){
+	Scanner scan = new Scanner(System.in);
+	System.out.println("\nInput the password: ");
+	convertToKey(scan.nextLine());
 
+	try{
+	    byte[] encodedText = Base64.getMimeDecoder().decode(originalText);
+	    desCipher.init(Cipher.DECRYPT_MODE, key);
+	    modifiedText = new String(desCipher.doFinal(encodedText));
+	}catch(Exception e){
+	    System.out.println("I hate my life");
+	    System.out.println("\nDecryption failed due to: ");
+	    System.out.println(e);
+	    //System.out.print("Wrong password");
+	}
+    }
 
-            desCipher.init(Cipher.ENCRYPT_MODE, myDesKey);
-            byte[] textEncrypted = desCipher.doFinal(text);
+    public static String getKey(){
+	return stringKey;
+    }
 
-            String s = new String(textEncrypted);
-            System.out.println(s);
-
-            desCipher.init(Cipher.DECRYPT_MODE, myDesKey);
-            byte[] textDecrypted = desCipher.doFinal(textEncrypted);
-
-            s = new String(textDecrypted);
-            System.out.println(s);
-        }catch(Exception e)
-        {
-            System.out.println("Exception");
-        }
-	*/
-
-	
+    public static String getModifiedText(){
+	return modifiedText;
     }
 }
+

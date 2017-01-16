@@ -1,0 +1,37 @@
+                       Enter HORATIO and MARCELLUS
+HORATIO
+                     Friends to this ground.
+MARCELLUS
+                     And liegemen to the Dane.
+FRANCISCO
+Give you good night.
+MARCELLUS
+O, farewell, honest soldier:
+Who hath relieved you?
+FRANCISCO
+Bernardo has my place.
+Give you good night.
+Exit
+MARCELLUS
+Holla! Bernardo!
+BERNARDO
+Say,
+What, is Horatio there?
+HORATIO
+A piece of him.
+BERNARDO
+Welcome, Horatio: welcome, good Marcellus.
+MARCELLUS
+What, has this thing appear'd again to-night?
+BERNARDO
+I have seen nothing.
+MARCELLUS
+Horatio says 'tis but our fantasy,
+And will not let belief take hold of him
+Touching this dreaded sight, twice seen of us:
+Therefore I have entreated him along
+With us to watch the minutes of this night;
+That if again this apparition come,
+He may approve our eyes and speak to it.
+HORATIO
+Tush, tush, 'twill not appear.

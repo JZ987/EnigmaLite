@@ -63,9 +63,7 @@ public class Cipher/*extends Implementation*/{
 	return modifiedText;
     }
     
-    
     //*****METHODS*****
-
     //Enciphers the data in the originalText variable
     public static void encrypt(){
 	String etext = "";
@@ -136,7 +134,7 @@ public class Cipher/*extends Implementation*/{
 	    }
 
 	    //adds newlines back into text
-	    if(originalText.substring(p. p + 1) == System.lineSeparator()){
+	    if(originalText.substring(p, p + 1) == System.lineSeparator()){
 		etext = etext + System.lineSeparator();
 	    }
 
@@ -219,9 +217,8 @@ public class Cipher/*extends Implementation*/{
 	    }
 	    
 	}//ends wrapping for loop
-        
+
 	modifiedText = detext;
     }
-    
-    //end
+    //ENDS CLASS
 }
