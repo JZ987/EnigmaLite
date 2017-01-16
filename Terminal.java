@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Implementation{
+public class Terminal{
 
 
     private static String selector, method, originalText, modifiedText, algoType, password;
