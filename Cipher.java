@@ -70,6 +70,7 @@ public class Cipher/*extends Implementation*/{
     public static void encrypt(){
 	String etext = "";
 	int switched = 0;
+	int counter;
 	
 	if(shift == 0){
 	    modifiedText = originalText;
@@ -87,20 +88,19 @@ public class Cipher/*extends Implementation*/{
 		etext = etext + originalText.charAt(p);
 		switched = 26;
 	    }
-	    
-	    //Returns spaces as spaces
-	    //if(originalText.substring(p, p + 1).equals(" ")){
-	    //	etext += " ";
-	    //}
 	    	    
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
 	    //lowercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
-		    if(skips.contains(alphabet[(i + shift) % 26])){
-			etext = etext + alphabet[(i + shift/**/) % 26];
+		    counter = 0;
+		    for(int x = 0; x < skips.length; x++){
+			counter = counter + 1;
 		    }
+		    if(skips.contains(alphabet[(i + shift) % 26])){
+			    etext = etext + alphabet[(i + shift) % 26];
+			}
 		    else{
 			etext = etext + alphabet[(i + shift) % 26];
 		    }
@@ -222,6 +222,11 @@ public class Cipher/*extends Implementation*/{
         
 	modifiedText = detext;
     }
-    
+
+    //Automatically deciphers a text as long as there is a key within the text.
+    //Will automatically find the number of shifts and skips
+    public static void autoDecrypt(){
+
+    }
     //end
 }
