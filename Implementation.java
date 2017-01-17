@@ -235,7 +235,7 @@ public class Implementation{
 	}
     }
 
-    //choose how many shifts you want
+    //choose how many times the text should be you want
     public static void chooseShift(){
 	if(selector.equals("encrypt")){
 	    System.out.println("\nHow many shifts do you want?");

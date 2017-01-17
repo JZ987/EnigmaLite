@@ -1,6 +1,7 @@
 import java.util. *;
 import java.io.*;
 import java.util.ArrayList;
+import java.lang.*;
 
 public class Cipher/*extends Implementation*/{
 
@@ -68,12 +69,41 @@ public class Cipher/*extends Implementation*/{
     public static void encrypt(){
 	String etext = "";
 	int switched = 0;
+	int shiftTempDigits = shift;
+	int shiftTempSymbols = shift;
 	
-	if(shift == 0){
+	//skips the whole method if shifts would do nothing
+	if(shift % 26 == 0){
 	    modifiedText = originalText;
 	    return;
 	}
+	
+	//ensures shift is a valid input
+	if((shift % 26) < 0){
+	    shift = 26 - (shift % 26);
+	}
+	else{
+	    shift = shift % 26;
+	}
+	//ensures shift works for digitswap
+	if((shiftTempDigits % 10) < 0){
+	    shiftTempDigits = 10 - (shiftTempDigits % 10);
+	}
+	else{
+	    shiftTempDigits = shiftTempDigits % 10;
+	}
+	//ensures shift works for symbolswap
+	if((shiftTempSymbols % 30) < 0){
+	    shiftTempSymbols = 30 - (shiftTempSymbols % 30);
+	}
+	else{
+	    shiftTempSymbols = shiftTempSymbols % 30;
+	}
 
+	System.out.println("shift: " + shift);
+	System.out.println("shiftTempDigits: " + shiftTempSymbols);
+	System.out.println("shiftTempSymbols: " + shiftTempSymbols);
+	
 	//cycles through every element of originalText
 	for(int p = 0; p < originalText.length(); p++){
 
@@ -96,12 +126,7 @@ public class Cipher/*extends Implementation*/{
 	    //lowercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
 		if(originalText.charAt(p) == (alphabet[i])){
-		    if(skips.contains(alphabet[(i + shift) % 26])){
-			etext = etext + alphabet[(i + shift/**/) % 26];
-		    }
-		    else{
-			etext = etext + alphabet[(i + shift) % 26];
-		    }
+		    etext = etext + alphabet[(i + shift) % 26];
 		    switched = 26;
 		}
 	    }
@@ -117,7 +142,7 @@ public class Cipher/*extends Implementation*/{
 	    if(swapDigits && (switched != 26)){
 		for(int i = 0; i < 10; i++){
 		    if(originalText.charAt(p) == (digit[i])){
-			etext = etext + digit[(i + shift) % 10];
+			etext = etext + digit[(i + shiftTempDigits) % 10];
 			switched = 26;
 		    }
 		}
@@ -126,8 +151,8 @@ public class Cipher/*extends Implementation*/{
 	    //symbols
 	    if(swapSymbols && (switched != 26)){
 		for(int i = 0; i < 30; i++){
-		    if( (originalText.charAt(p) == (symbol[i])) && !(skips.contains(symbol[i]))){
-			etext = etext + symbol[(i + shift) % 30];
+		    if(originalText.charAt(p) == (symbol[i])){
+			etext = etext + symbol[(i + shiftTempSymbols) % 30];
 			switched = 26;
 		    }
 		}
@@ -155,7 +180,38 @@ public class Cipher/*extends Implementation*/{
     public static void decrypt(){
 	String detext = "";
 	int switched = 0;
+	int shiftTempDigits = shift;
+	int shiftTempSymbols = shift;
 
+	//skips the whole method if shifts would do nothing
+	if(shift % 26 == 0){
+	    modifiedText = originalText;
+	    return;
+	}
+	
+	//ensures shift is a valid input
+	if((shift % 26) < 0){
+	    shift = 26 - (shift % 26);
+	}
+	else{
+	    shift = shift % 26;
+	}
+	//ensures shift works for digitswap
+	if((shiftTempDigits % 10) < 0){
+	    shiftTempDigits = 10 - (shiftTempDigits % 10);
+	}
+	else{
+	    shiftTempDigits = shiftTempDigits % 10;
+	}
+	//ensures shift works for symbolswap
+	if((shiftTempSymbols % 30) < 0){
+	    shiftTempSymbols = 30 - (shiftTempSymbols % 30);
+	}
+	else{
+	    shiftTempSymbols = shiftTempSymbols % 30;
+	}
+	    
+	
 	for(int p = 0; p < originalText.length(); p++){
 	    
 	    //resets the switched checker
@@ -195,7 +251,7 @@ public class Cipher/*extends Implementation*/{
 	    if(swapDigits && (switched != 26)){
 		for(int i = 0; i < 10; i++){
 		    if(originalText.charAt(p) == (digit[i])){
-			detext += digit[(i + (10 - shift)) % 10];
+			detext += digit[(i + (10 - shiftTempDigits)) % 10];
 			switched = 26;
 		    }
 		}
@@ -205,7 +261,7 @@ public class Cipher/*extends Implementation*/{
 	    if(swapSymbols && (switched != 26)){
 		for(int i = 0; i < 30; i++){
 		    if(originalText.charAt(p) == (symbol[i])){
-			detext += symbol[(i + (30 - shift)) % 30];
+			detext += symbol[(i + (30 - shiftTempSymbols)) % 30];
 			switched = 26;
 		    }
 		}
