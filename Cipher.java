@@ -86,7 +86,7 @@ public class Cipher/*extends Implementation*/{
 	    return;
 	}
 	
-	//ensures shift is a valid input for alphabet and Alphaber
+	//ensures shift is a valid input for alphabet and Alphabet
 	if((shift % 26) < 0){
 	    shift = (26 + (shift % 26));
 	}
@@ -253,21 +253,21 @@ public class Cipher/*extends Implementation*/{
 	
 	//ensures shift is a valid input for alphabet and ALPHABET
 	if((shift % 26) < 0){
-	    shift = (shift % 26);
+	    shift = (26 - (26 + (shift % 26)));
 	}
 	else{
 	    shift = (26 - (shift % 26));
 	}
 	//ensures shift works for digitswap
 	if((shiftTempDigits % 10) < 0){
-	    shiftTempDigits = (shiftTempDigits % 10);
+	    shiftTempDigits = (10 - (10 + (shiftTempDigits % 10)));
 	}
 	else{
 	    shiftTempDigits = (10 - (shiftTempDigits % 10));
 	}
 	//ensures shift works for symbolswap
 	if((shiftTempSymbols % 30) < 0){
-	    shiftTempSymbols = (shiftTempSymbols % 30);
+	    shiftTempSymbols = (30 - (30 + (shiftTempSymbols % 30)));
 	}
 	else{
 	    shiftTempSymbols = (30 - (shiftTempSymbols % 30));
@@ -293,6 +293,7 @@ public class Cipher/*extends Implementation*/{
 	    }
 	    
 	    //Returns spaces as spaces
+	    //currently uneeded
 	    //if(originalText.substring(p, p + 1).equals(" ")){
 	    //	etext += " ";
 	    //}
@@ -392,5 +393,17 @@ public class Cipher/*extends Implementation*/{
 	modifiedText = detext;
     }
     
-    //ENDS CLASS
+
+    //autodecrypt method
+    //tried to automatically decrypt a file without knowing the input
+    public static void autodecrypt(){
+	String key = "";
+
+	for(int p = 0; p < originalText.length(); p++){
+	    
+	}
+    }
+
+    
+    //ENDS CLASS    
 }

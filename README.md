@@ -4,6 +4,12 @@ Driver.java:
 This is the executable. It calls methods from the other classes but this is the only thing you have to run Implementation.java This class implements the
 terminal interface (and soon the GUI). It recieves user input and calls methods from the other classes to act on it.
 
+Terminal.java:
+This file contains the terminal interface. It is the only interface that works completely with every excryption method in EnigmaLite.
+
+GUI.java
+This file contains the GUI for EnigmaLite. It is currently unfinished. It only partially works with symmetrc encryption and does not work at all with ciphers
+
 Cipher.java:
 This class contains the necessary methods for running a simple or complex Caesar Cipher on input text. It is called by the Implementation class.
 
@@ -24,7 +30,7 @@ caesar.txt:
 This document is a string of sampletext, the first 10 chapters of Caesar's Gallic Wars, that can be used for testing encryption and decryption algorithms.
 
 hamlet.txt:
-This document is another string of seample text for testing encryption algorithms
+This document is another string of seample text for testing encryption algorithms. It contains the entire text of Shakespeare's Hamlet
 
 Running the Program:
 Simply compile and run the Driver.java file while all files are in the same folder. Files can be read from anywhere as long as a path is specified, but

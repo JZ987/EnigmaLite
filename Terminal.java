@@ -46,7 +46,7 @@ public class Terminal{
 	    }
 	    originalText = stringBuffer.toString();
 	}catch(Exception e){
-	    System.out.println("Wrong path");
+	    System.out.println("Invalid Filename or path");
 	    chooseFile();
 	}
     }
@@ -103,6 +103,7 @@ public class Terminal{
 
     //choose to do encryption or decryption
     public static void chooseWhatToDo(){
+	System.out.println("Welcome to the terminal interface. Type each parameter to go forward. Type <back> to go back.");
 	System.out.println("\nDo you want to <Encrypt> or <Decrypt> your file?");
 	String input = sc.nextLine();
 	if(input.equals("Encrypt") || input.equals("encrypt") || input.equals("e")){
@@ -112,9 +113,11 @@ public class Terminal{
 	    selector = "decrypt";
 	    chooseEncryption();
 	    /*
-	}else if(input.equals("debug")){
-	    cipherDebug();
+	      }else if(input.equals("debug")){
+	      cipherDebug();
 	    */
+	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
+	    System.out.println("You cannot go back from this point");
 	}else{
 	    System.out.println("Unknown command");
 	    chooseWhatToDo();
@@ -141,7 +144,7 @@ public class Terminal{
 	if(selector.equals("encrypt")){
 	    System.out.println("\nWhich encryption method do you want to use? [Cipher | Symmetric]");
 	}else if(selector.equals("decrypt")){
-	    System.out.println("\nWhich decryption method do you want to use? [Cipher | Symmetric]");
+	    System.out.println("\nWhich decryption method did you use? [Cipher | Symmetric]");
 	}
 	
 	String input = sc.nextLine();
@@ -158,7 +161,7 @@ public class Terminal{
 	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
 	    chooseWhatToDo();
         }else{
-	    System.out.println("<Encryption not known!>");
+	    System.out.println("<Encryption method not known!>");
 	    chooseEncryption();
 	}
     }
@@ -182,10 +185,10 @@ public class Terminal{
 	    createFile(input);
 	}
     }
-
     
     /*
     //Cipher Encryption
+    //Commented out because it is redundant in this current version
     public static void optionCipher(){
 	chooseSwapDigit();
 	chooseSwapSymbols();
@@ -343,7 +346,7 @@ public class Terminal{
 	}
     }
 
-
+    //Incomplete
     /*public static void choosePassword(){
 	if(selector.equals("encrypt")){
 	    System.out.println("\nDo you want to make your own password or generate a random one? <make> or <generate>");
