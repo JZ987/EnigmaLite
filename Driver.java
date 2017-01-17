@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Driver extends Implementation{
+public class Driver{
 
     private static Scanner sc;
 
@@ -14,12 +14,11 @@ public class Driver extends Implementation{
 	String choice = sc.next();	
 		
 	if(choice.equals("GUI") || choice.equals("gui")){
-	    System.out.println("GUI not currently available");
-	    System.out.println("\nPlease choose either <GUI> or <Terminal>");
-	    chooseOne();
+	    clearScreen();
+	    GUI gui = new GUI();
 	}else if(choice.equals("terminal") || choice.equals("Terminal") || choice.equals("TERMINAL") || choice.equals("t")){
 	    clearScreen();
-	    terminal();
+	    Terminal terminal = new Terminal();
 	}else{
 	    System.out.println("\nPlease choose either <GUI> or <terminal>");
 	    chooseOne();
@@ -28,15 +27,12 @@ public class Driver extends Implementation{
     
     
     public static void main(String[] args){
-
-	Implementation imp = new Implementation();
 	
 	sc = new Scanner(System.in);
 
 	clearScreen();
 	
         System.out.println("Which interface do you want to use? [GUI/Terminal]");
-	System.out.println("(GUI not currently available. Coming Soon!)");
 
 	chooseOne();
     }

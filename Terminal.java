@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Implementation{
+public class Terminal{
 
 
     private static String selector, method, originalText, modifiedText, algoType, password;
@@ -28,7 +28,7 @@ public class Implementation{
     */
 
     //Begins running the terminal interface
-    public static void terminal(){
+    public Terminal(){
 	originalText = "";
 	modifiedText = "";
 	sc = new Scanner(System.in);
@@ -54,42 +54,50 @@ public class Implementation{
     
     //creates the file and runs the selected methods from cipher to create
     //the encoded/decoded text
-    public static void createFile(String fileName){
-	Cipher cipher = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
-	Symmetric symmetric = new Symmetric(originalText, modifiedText, algoType);
-	
-	if(method.equals("cipher")){
-	    if(selector.equals("encrypt")){
-		cipher.encrypt();
-	    }else if(selector.equals("decrypt")){
-		cipher.decrypt();
-	    }else{
-		System.out.println("Error, restart from chooseWhatToDo");
-		chooseWhatToDo();
-	    }
-	}else if(method.equals("symmetric")){
-	    if(selector.equals("encrypt")){
-		symmetric.encrypt();
-	    }else if(selector.equals("decrypt")){
-		symmetric.decrypt();
-	    }else{
-		System.out.println("Error, restart from chooseWhatToDo");
-	    }
-	}
-	
-	//Writes the file to the EnigmaLite folder
-	try{
-	    PrintWriter writer = new PrintWriter("EnigmaLitebin/" + fileName + ".txt", "UTF-8");
+    public static void createFile(String file){
+	if(!originalText.equals(null)){
+	    Cipher cipher = new Cipher(originalText, modifiedText, shift, swapDigits, swapSymbols, skips);
+	    Symmetric symmetric = new Symmetric(originalText, modifiedText, algoType);
+	    
 	    if(method.equals("cipher")){
-		writer.println(cipher.getModifiedText());
+		if(selector.equals("encrypt")){
+		    cipher.encrypt();
+		}else if(selector.equals("decrypt")){
+		    cipher.decrypt();
+		}else{
+		    System.out.println("Error");
+		}
 	    }else if(method.equals("symmetric")){
-		writer.println(symmetric.getModifiedText());
+		if(selector.equals("encrypt")){
+		    symmetric.encrypt();
+		}else if(selector.equals("decrypt")){
+		    symmetric.decrypt();
+		}else{
+		    System.out.println("Error");
+		}
 	    }
-	    writer.close();
-	    System.out.println("\nGreat Job!!! Your coded file was successfully created and placed in the folder EnigmaLitebin.");
-	} catch (IOException e) {
-	    System.out.println("Unexpected Error: Unable to write to file");
-	    System.exit(1);
+	    
+	    //Writes the file to the EnigmaLite folder
+	    try{
+		PrintWriter writer = new PrintWriter("EnigmaLitebin/" + file + ".txt", "UTF-8");
+		if(method.equals("cipher")){
+		    writer.println(cipher.getModifiedText());
+		}else if(method.equals("symmetric")){
+		    writer.println(symmetric.getModifiedText());
+		}
+		writer.close();
+		if(selector.equals("encrypt")){
+		    System.out.println("\nGreat Job!!! Your file was successfully encrypted and placed in the folder EnigmaLitebin!");
+		}else if(selector.equals("decrypt")){
+		    System.out.println("\nGreat Job!!! Your file was successfully decrypted and placed in the folder EnigmaLitebin!");
+		}
+	    } catch (IOException e) {
+		System.out.println("Unexpected Error: Unable to write to file");
+		System.out.println(e);
+		System.exit(1);
+	    }	    
+	}else{
+	    System.out.println("Please pick a text file first");
 	}	    
     }
 
