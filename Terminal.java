@@ -40,7 +40,7 @@ public class Terminal{
 	try{
 	    Reader reader = new InputStreamReader(new FileInputStream(file));
 	    StringBuilder stringBuffer = new StringBuilder();
-	    char[] buff = new char[500];
+	    char[] buff = new char[20000];
 	    for (int charsRead; (charsRead = reader.read(buff)) != -1; ) {
 		stringBuffer.append(buff, 0, charsRead);
 	    }
@@ -103,6 +103,7 @@ public class Terminal{
 
     //choose to do encryption or decryption
     public static void chooseWhatToDo(){
+	System.out.println("Welcome to the terminal interface. Type each parameter to go forward. Type <back> to go back.");
 	System.out.println("\nDo you want to <Encrypt> or <Decrypt> your file?");
 	String input = sc.nextLine();
 	if(input.equals("Encrypt") || input.equals("encrypt") || input.equals("e")){
@@ -115,6 +116,9 @@ public class Terminal{
 	}else if(input.equals("debug")){
 	    cipherDebug();
 	    */
+	}else if(input.equals("back") || input.equals("Back") || input.equals("b") || input.equals("BACK")){
+	    System.out.println("You cannot go back from this point");
+	    chooseWhatToDo();
 	}else{
 	    System.out.println("Unknown command");
 	    chooseWhatToDo();
@@ -321,7 +325,7 @@ public class Terminal{
 	}else if(selector.equals("decrypt")){
 	    System.out.println("\nWhich algorithm did you use to encrypt the text?");
 	}
-	System.out.println("\n1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)HmacMD5 7)RC2 [input the number]");
+	System.out.println("\n1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)RC2 [input the number]");
 	String input = sc.nextLine();
 	if(input.equals("1")){
 	    algoType = "AES";
@@ -334,8 +338,6 @@ public class Terminal{
 	}else if(input.equals("5")){
 	    algoType = "DESede";
 	}else if(input.equals("6")){
-	    algoType = "HmacMD5";
-	}else if(input.equals("7")){
 	    algoType = "RC2";
 	}else{
 	    System.out.println("Please input a number corresponding with the algorithm you want to use!");

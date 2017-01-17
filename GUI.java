@@ -136,9 +136,7 @@ public class GUI extends JFrame implements ActionListener{
 		break;
 	    case "5": algoType = "DESede";
 		break;
-	    case "6": algoType = "HmacMD5";
-		break;
-	    case "7": algoType = "RC2";
+	    case "6": algoType = "RC2";
 		break;
 	    default: tf1.setText("Please input a number 1-7");
 	    }
@@ -199,7 +197,7 @@ public class GUI extends JFrame implements ActionListener{
 	    tf5.setBounds(250, 370, 200, 25);
 	}else if(method.equals("symmetric")){
 	    l3 = new JLabel("Which algorithm do you want to use?");
-	    l4 = new JLabel("1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)HmacMD5 7)RC2 [input the number]");
+	    l4 = new JLabel("1)AES 2)ARCFOUR 3)Blowfish 4)DES 5)DESede 6)RC2 [input the number]");
 	    tf1 = new JTextField(1);
 
 	    l5 = new JLabel("What would you like the encrypted file name to be?");
