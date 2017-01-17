@@ -128,6 +128,12 @@ public class Cipher/*extends Implementation*/{
 	    //text file
 	    //lowercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
+		for(int x = 0; x < skips.length; x++){
+		    if(skips.contains(alphabet[i]){
+			    x = skips.length;
+		    }
+		}
+		
 		if(originalText.charAt(p) == (alphabet[i])){
 		    etext = etext + alphabet[(i + shift) % 26];
 		    switched = 26;
