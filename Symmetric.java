@@ -20,7 +20,7 @@ public class Symmetric{
 	try{
 	    desCipher = Cipher.getInstance(algoType);
 	}catch(Exception e){
-	    System.out.println("Sad");
+	    System.out.println("");
 	}
     }
 
