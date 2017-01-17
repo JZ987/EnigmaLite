@@ -86,7 +86,7 @@ public class Cipher/*extends Implementation*/{
 	    return;
 	}
 	
-	//ensures shift is a valid input
+	//ensures shift is a valid input for alphabet and Alphaber
 	if((shift % 26) < 0){
 	    shift = (26 + (shift % 26));
 	}
@@ -236,33 +236,41 @@ public class Cipher/*extends Implementation*/{
 	int switched = 0;
 	int shiftTempDigits = shift;
 	int shiftTempSymbols = shift;
-
+	char tempa = ' ';
+	int countera = 0;
+	char tempA = ' ';
+	int counterA = 0;
+	char tempd = ' ';
+	int counterd = 0;
+	char temps = ' ';
+	int counters = 0;
+	
 	//skips the whole method if shifts would do nothing
-	if(shift % 26 == 0){
+	if((shift % 26) == 0){
 	    modifiedText = originalText;
 	    return;
 	}
 	
-	//ensures shift is a valid input
+	//ensures shift is a valid input for alphabet and ALPHABET
 	if((shift % 26) < 0){
-	    shift = (26 + (shift % 26));
+	    shift = (shift % 26);
 	}
 	else{
-	    shift = (shift % 26);
+	    shift = (26 - (shift % 26));
 	}
 	//ensures shift works for digitswap
 	if((shiftTempDigits % 10) < 0){
-	    shiftTempDigits = (10 + (shiftTempDigits % 10));
+	    shiftTempDigits = (shiftTempDigits % 10);
 	}
 	else{
-	    shiftTempDigits = (shiftTempDigits % 10);
+	    shiftTempDigits = (10 - (shiftTempDigits % 10));
 	}
 	//ensures shift works for symbolswap
 	if((shiftTempSymbols % 30) < 0){
-	    shiftTempSymbols = (30 + (shiftTempSymbols % 30));
+	    shiftTempSymbols = (shiftTempSymbols % 30);
 	}
 	else{
-	    shiftTempSymbols = (shiftTempSymbols % 30);
+	    shiftTempSymbols = (30 - (shiftTempSymbols % 30));
 	}
 
 	/*
@@ -271,50 +279,79 @@ public class Cipher/*extends Implementation*/{
 	System.out.println("shiftTempDigits: " + shiftTempDigits);
 	System.out.println("shiftTempSymbols: " + shiftTempSymbols);
 	*/
-	    
-	//Cycles through the entire document char by char
+	
+	//cycles through every element of originalText
 	for(int p = 0; p < originalText.length(); p++){
-	    
+
 	    //resets the switched checker
 	    switched = 0;
 
-	    /*
-	    //Returns spaces as spaces
-	    if(originalText.substring(p, p + 1).equals(" ")){
-		detext += " ";
-	    }
-	    */
-
 	    //checks if an element should be skipped over
 	    if(skips.contains(originalText.charAt(p))){
-		detext += originalText.charAt(p);
+		detext = detext + originalText.charAt(p);
 		switched = 26;
 	    }
 	    
+	    //Returns spaces as spaces
+	    //if(originalText.substring(p, p + 1).equals(" ")){
+	    //	etext += " ";
+	    //}
+
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
-
-	    //lowercase
+	    //lowercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
+	    	    
 		if(originalText.charAt(p) == (alphabet[i])){
-		    detext += alphabet[(i + (26 - shift)) % 26];
+		    tempa = alphabet[(i + shift) % 26];
+
+		    for(int x = 0; x < skips.size(); x++){
+			
+			if(tempa == skips.get(x)){
+			    countera = countera + 1;
+			    tempa = alphabet[(i + shift + countera) % 26];
+			}
+		    }
+		    
+		    detext = detext + tempa;
+		    switched = 26;
+		}
+	    }
+	    
+	    //uppercase letters
+	    for(int i = 0; (i + switched) < 26; i++){
+
+		if(originalText.charAt(p) == (ALPHABET[i])){
+		    tempA = ALPHABET[(i + shift) % 26];
+
+		    for(int x = 0; x < skips.size(); x++){
+			
+			if(tempA == skips.get(x)){
+			    counterA = counterA + 1;
+			    tempA = ALPHABET[(i + shift + counterA) % 26];
+			}
+		    }
+		    
+		    detext = detext + tempA;
 		    switched = 26;
 		}
 	    }
 
-	    //uppercase
-	    for(int i = 0; (i + switched) < 26; i++){
-		if(originalText.charAt(p) == (ALPHABET[i])){
-		    detext += ALPHABET[(i + (26 - shift)) % 26];
-		    switched = 26;
-			}
-	    }
-
 	    //digits
 	    if(swapDigits && (switched != 26)){
-		for(int i = 0; i < 10; i++){
+	        for(int i = 0; i < 10; i++){
 		    if(originalText.charAt(p) == (digit[i])){
-			detext += digit[(i + (10 - shiftTempDigits)) % 10];
+			tempd = digit[(i + shift) % 10];
+
+			for(int x = 0; x < skips.size(); x++){
+			
+			    if(tempd == skips.get(x)){
+				counterd = counterd + 1;
+				tempd = digit[(i + shift + counterd) % 10];
+			    }
+			}
+		    
+			detext = detext + tempd;
 			switched = 26;
 		    }
 		}
@@ -322,20 +359,35 @@ public class Cipher/*extends Implementation*/{
 
 	    //symbols
 	    if(swapSymbols && (switched != 26)){
-		for(int i = 0; i < 30; i++){
+	        for(int i = 0; i < 30; i++){
 		    if(originalText.charAt(p) == (symbol[i])){
-			detext += symbol[(i + (30 - shiftTempSymbols)) % 30];
+			temps = symbol[(i + shift) % 30];
+
+			for(int x = 0; x < skips.size(); x++){
+			
+			    if(temps == skips.get(x)){
+				counters = counters + 1;
+				temps = symbol[(i + shift + counters) % 30];
+			    }
+			}
+		    
+			detext = detext + temps;
 			switched = 26;
 		    }
 		}
+	    }
+
+	    //adds newlines back into text
+	    if(originalText.substring(p, p + 1) == System.lineSeparator()){
+		detext = detext + System.lineSeparator();
 	    }
 
 	    //Catches unswitched chars
 	    if(switched == 0){
 		detext += originalText.charAt(p);
 	    }
-	    
-	}//ends wrapping for loop
+
+	}//ends the wrapping for loop
 
 	modifiedText = detext;
     }
