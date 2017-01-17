@@ -395,6 +395,7 @@ public class Cipher/*extends Implementation*/{
     
 
     //autodecrypt method
+    //really unfinished
     //tried to automatically decrypt a file without knowing the input
     public static void autodecrypt(){
 	String key = "";
