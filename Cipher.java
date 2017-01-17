@@ -80,29 +80,32 @@ public class Cipher/*extends Implementation*/{
 	
 	//ensures shift is a valid input
 	if((shift % 26) < 0){
-	    shift = 26 - (shift % 26);
+	    shift = (26 + (shift % 26));
 	}
 	else{
-	    shift = shift % 26;
+	    shift = (shift % 26);
 	}
 	//ensures shift works for digitswap
 	if((shiftTempDigits % 10) < 0){
-	    shiftTempDigits = 10 - (shiftTempDigits % 10);
+	    shiftTempDigits = (10 + (shiftTempDigits % 10));
 	}
 	else{
-	    shiftTempDigits = shiftTempDigits % 10;
+	    shiftTempDigits = (shiftTempDigits % 10);
 	}
 	//ensures shift works for symbolswap
 	if((shiftTempSymbols % 30) < 0){
-	    shiftTempSymbols = 30 - (shiftTempSymbols % 30);
+	    shiftTempSymbols = (30 + (shiftTempSymbols % 30));
 	}
 	else{
-	    shiftTempSymbols = shiftTempSymbols % 30;
+	    shiftTempSymbols = (shiftTempSymbols % 30);
 	}
 
+	/*
+	//for testing purposes
 	System.out.println("shift: " + shift);
-	System.out.println("shiftTempDigits: " + shiftTempSymbols);
+	System.out.println("shiftTempDigits: " + shiftTempDigits);
 	System.out.println("shiftTempSymbols: " + shiftTempSymbols);
+	*/
 	
 	//cycles through every element of originalText
 	for(int p = 0; p < originalText.length(); p++){
@@ -191,36 +194,45 @@ public class Cipher/*extends Implementation*/{
 	
 	//ensures shift is a valid input
 	if((shift % 26) < 0){
-	    shift = 26 - (shift % 26);
+	    shift = (26 + (shift % 26));
 	}
 	else{
-	    shift = shift % 26;
+	    shift = (shift % 26);
 	}
 	//ensures shift works for digitswap
 	if((shiftTempDigits % 10) < 0){
-	    shiftTempDigits = 10 - (shiftTempDigits % 10);
+	    shiftTempDigits = (10 + (shiftTempDigits % 10));
 	}
 	else{
-	    shiftTempDigits = shiftTempDigits % 10;
+	    shiftTempDigits = (shiftTempDigits % 10);
 	}
 	//ensures shift works for symbolswap
 	if((shiftTempSymbols % 30) < 0){
-	    shiftTempSymbols = 30 - (shiftTempSymbols % 30);
+	    shiftTempSymbols = (30 + (shiftTempSymbols % 30));
 	}
 	else{
-	    shiftTempSymbols = shiftTempSymbols % 30;
+	    shiftTempSymbols = (shiftTempSymbols % 30);
 	}
+
+	/*
+	//for testing purposes
+	System.out.println("shift: " + shift);
+	System.out.println("shiftTempDigits: " + shiftTempDigits);
+	System.out.println("shiftTempSymbols: " + shiftTempSymbols);
+	*/
 	    
-	
+	//Cycles through the entire document char by char
 	for(int p = 0; p < originalText.length(); p++){
 	    
 	    //resets the switched checker
 	    switched = 0;
-	    
+
+	    /*
 	    //Returns spaces as spaces
 	    if(originalText.substring(p, p + 1).equals(" ")){
 		detext += " ";
 	    }
+	    */
 
 	    //checks if an element should be skipped over
 	    if(skips.contains(originalText.charAt(p))){
@@ -276,5 +288,6 @@ public class Cipher/*extends Implementation*/{
 
 	modifiedText = detext;
     }
+    
     //ENDS CLASS
 }
