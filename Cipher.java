@@ -71,9 +71,17 @@ public class Cipher/*extends Implementation*/{
 	int switched = 0;
 	int shiftTempDigits = shift;
 	int shiftTempSymbols = shift;
+	char tempa = ' ';
+	int countera = 0;
+	char tempA = ' ';
+	int counterA = 0;
+	char tempd = ' ';
+	int counterd = 0;
+	char temps = ' ';
+	int counters = 0;
 	
 	//skips the whole method if shifts would do nothing
-	if(shift % 26 == 0){
+	if((shift % 26) == 0){
 	    modifiedText = originalText;
 	    return;
 	}
@@ -123,35 +131,62 @@ public class Cipher/*extends Implementation*/{
 	    //if(originalText.substring(p, p + 1).equals(" ")){
 	    //	etext += " ";
 	    //}
-	    	    
+
 	    //Cycles through the alphabet arrays replacing each letter in the
 	    //text file
 	    //lowercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
-		for(int x = 0; x < skips.size(); x++){
-		    if(skips.contains(alphabet[i])){
-			x = skips.size();
-		    }
-		}
-		
+	    	    
 		if(originalText.charAt(p) == (alphabet[i])){
-		    etext = etext + alphabet[(i + shift) % 26];
+		    tempa = alphabet[(i + shift) % 26];
+
+		    for(int x = 0; x < skips.size(); x++){
+			
+			if(tempa == skips.get(x)){
+			    countera = countera + 1;
+			    tempa = alphabet[(i + shift + countera) % 26];
+			}
+		    }
+		    
+		    etext = etext + tempa;
 		    switched = 26;
 		}
 	    }
+	    
 	    //uppercase letters
 	    for(int i = 0; (i + switched) < 26; i++){
+
 		if(originalText.charAt(p) == (ALPHABET[i])){
-		    etext = etext + ALPHABET[(i + shift) % 26];
-		    switched = 26;
+		    tempA = ALPHABET[(i + shift) % 26];
+
+		    for(int x = 0; x < skips.size(); x++){
+			
+			if(tempA == skips.get(x)){
+			    counterA = counterA + 1;
+			    tempA = ALPHABET[(i + shift + counterA) % 26];
 			}
+		    }
+		    
+		    etext = etext + tempA;
+		    switched = 26;
+		}
 	    }
 
 	    //digits
 	    if(swapDigits && (switched != 26)){
-		for(int i = 0; i < 10; i++){
+	        for(int i = 0; i < 10; i++){
 		    if(originalText.charAt(p) == (digit[i])){
-			etext = etext + digit[(i + shiftTempDigits) % 10];
+			tempd = digit[(i + shift) % 10];
+
+			for(int x = 0; x < skips.size(); x++){
+			
+			    if(tempd == skips.get(x)){
+				counterd = counterd + 1;
+				tempd = digit[(i + shift + counterd) % 10];
+			    }
+			}
+		    
+			etext = etext + tempd;
 			switched = 26;
 		    }
 		}
@@ -159,9 +194,19 @@ public class Cipher/*extends Implementation*/{
 
 	    //symbols
 	    if(swapSymbols && (switched != 26)){
-		for(int i = 0; i < 30; i++){
+	        for(int i = 0; i < 30; i++){
 		    if(originalText.charAt(p) == (symbol[i])){
-			etext = etext + symbol[(i + shiftTempSymbols) % 30];
+			temps = symbol[(i + shift) % 30];
+
+			for(int x = 0; x < skips.size(); x++){
+			
+			    if(temps == skips.get(x)){
+				counters = counters + 1;
+				temps = symbol[(i + shift + counters) % 30];
+			    }
+			}
+		    
+			etext = etext + temps;
 			switched = 26;
 		    }
 		}
