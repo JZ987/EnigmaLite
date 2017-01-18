@@ -93,6 +93,7 @@ public class Cipher/*extends Implementation*/{
 	else{
 	    shift = (shift % 26);
 	}
+	
 	//ensures shift works for digitswap
 	if((shiftTempDigits % 10) < 0){
 	    shiftTempDigits = (10 + (shiftTempDigits % 10));
@@ -176,6 +177,163 @@ public class Cipher/*extends Implementation*/{
 	    if(swapDigits && (switched != 26)){
 	        for(int i = 0; i < 10; i++){
 		    if(originalText.charAt(p) == (digit[i])){
+			tempd = digit[(i + shiftTempDigits) % 10];
+
+			for(int x = 0; x < skips.size(); x++){
+			
+			    if(tempd == skips.get(x)){
+				counterd = counterd + 1;
+				tempd = digit[(i + shiftTempDigits + counterd) % 10];
+			    }
+			}
+		    
+			etext = etext + tempd;
+			switched = 26;
+		    }
+		}
+	    }
+
+	    //symbols
+	    if(swapSymbols && (switched != 26)){
+	        for(int i = 0; i < 30; i++){
+		    if(originalText.charAt(p) == (symbol[i])){
+			temps = symbol[(i + shiftTempSymbols) % 30];
+
+			for(int x = 0; x < skips.size(); x++){
+			
+			    if(temps == skips.get(x)){
+				counters = counters + 1;
+				temps = symbol[(i + shiftTempDigits + counters) % 30];
+			    }
+			}
+		    
+			etext = etext + temps;
+			switched = 26;
+		    }
+		}
+	    }
+
+	    //adds newlines back into text
+	    if(originalText.substring(p, p + 1) == System.lineSeparator()){
+		etext = etext + System.lineSeparator();
+	    }
+
+	    //Catches unswitched chars
+	    if(switched == 0){
+		etext += originalText.charAt(p);
+	    }
+
+	}//ends the wrapping for loop
+	modifiedText = etext;
+    }
+    
+    /*public static void encrypt(){
+	String etext = "";
+	int switched = 0;
+	
+	//skips the whole method if shifts would do nothing
+	if((shift % 26) == 0){
+	    modifiedText = originalText;
+	    return;
+	}
+	
+	//ensures shift is a valid input for alphabet and Alphabet
+	if((shift % 26) < 0){
+	    shift = (26 + (shift % 26));
+	}
+	else{
+	    shift = (shift % 26);
+	}
+	//ensures shift works for digitswap
+	if((shiftTempDigits % 10) < 0){
+	    shiftTempDigits = (10 + (shiftTempDigits % 10));
+	}
+	else{
+	    shiftTempDigits = (shiftTempDigits % 10);
+	}
+	//ensures shift works for symbolswap
+	if((shiftTempSymbols % 30) < 0){
+	    shiftTempSymbols = (30 + (shiftTempSymbols % 30));
+	}
+	else{
+	    shiftTempSymbols = (shiftTempSymbols % 30);
+	}
+
+	
+	//for testing purposes
+	System.out.println("shift: " + shift);
+	System.out.println("shiftTempDigits: " + shiftTempDigits);
+	System.out.println("shiftTempSymbols: " + shiftTempSymbols);
+	
+	
+	//cycles through every element of originalText
+	for(int p = 0; p < originalText.length(); p++){
+
+	    //resets the switched checker
+	    switched = 0;
+
+	    //checks if an element should be skipped over
+	    if(skips.contains(originalText.charAt(p))){
+		etext = etext + originalText.charAt(p);
+		switched = 26;
+	    }
+	    
+	    //Returns spaces as spaces
+	    //if(originalText.substring(p, p + 1).equals(" ")){
+	    //	etext += " ";
+	    //}
+
+	    //Cycles through the alphabet arrays replacing each letter in the
+	    //text file
+	    //lowercase letters
+	    for(int i = 0; (i + switched) < 26; i++){
+	    	    
+		if(originalText.charAt(p) == (alphabet[i])){
+
+		    tempa = alphabet[(i + shift) % 26];
+
+		    for(int x = 0; x < skips.size(); x++){
+			
+			if(tempa == skips.get(x)){
+			    countera = countera + 1;
+			    tempa = alphabet[(i + shift + countera) % 26];
+			}
+
+		    if(skips.contains(alphabet[(i + shift) % 26])){
+			etext = etext + alphabet[(i + shift) % 26];
+		    }
+		    else{
+			etext = etext + alphabet[(i + shift) % 26];
+		    }
+		    
+		    etext = etext + tempa;
+		    switched = 26;
+		}
+	    }
+	    
+	    //uppercase letters
+	    for(int i = 0; (i + switched) < 26; i++){
+
+		if(originalText.charAt(p) == (ALPHABET[i])){
+		    tempA = ALPHABET[(i + shift) % 26];
+
+		    for(int x = 0; x < skips.size(); x++){
+			
+			if(tempA == skips.get(x)){
+			    counterA = counterA + 1;
+			    tempA = ALPHABET[(i + shift + counterA) % 26];
+			}
+		    }
+		    
+		    etext = etext + tempA;
+		    switched = 26;
+		}
+	    }
+
+	    //digits
+	    if(swapDigits && (switched != 26)){
+	        for(int i = 0; i < 10; i++){
+		    if(originalText.charAt(p) == (digit[i])){
 			tempd = digit[(i + shift) % 10];
 
 			for(int x = 0; x < skips.size(); x++){
@@ -224,7 +382,7 @@ public class Cipher/*extends Implementation*/{
 
 	}//ends the wrapping for loop
 	modifiedText = etext;
-    }
+	}*/
 
     
     //Deciphers a method encrypted with the above method, reads an already
@@ -272,7 +430,7 @@ public class Cipher/*extends Implementation*/{
 	else{
 	    shiftTempSymbols = (30 - (shiftTempSymbols % 30));
 	}
-
+	
 	/*
 	//for testing purposes
 	System.out.println("shift: " + shift);
@@ -342,6 +500,131 @@ public class Cipher/*extends Implementation*/{
 	    if(swapDigits && (switched != 26)){
 	        for(int i = 0; i < 10; i++){
 		    if(originalText.charAt(p) == (digit[i])){
+			tempd = digit[(i + shiftTempDigits) % 10];
+
+			for(int x = 0; x < skips.size(); x++){
+			
+			    if(tempd == skips.get(x)){
+				counterd = counterd + 1;
+				tempd = digit[(i + shiftTempDigits + counterd) % 10];
+			    }
+			}
+		    
+			detext = detext + tempd;
+			switched = 26;
+		    }
+		}
+	    }
+
+	    //symbols
+	    if(swapSymbols && (switched != 26)){
+	        for(int i = 0; i < 30; i++){
+		    if(originalText.charAt(p) == (symbol[i])){
+			temps = symbol[(i + shiftTempSymbols) % 30];
+
+			for(int x = 0; x < skips.size(); x++){
+			
+			    if(temps == skips.get(x)){
+				counters = counters + 1;
+				temps = symbol[(i + shiftTempSymbols + counters) % 30];
+			    }
+			}
+		    
+			detext = detext + temps;
+			switched = 26;
+		    }
+		}
+	    }
+
+	    //adds newlines back into text
+	    if(originalText.substring(p, p + 1) == System.lineSeparator()){
+		detext = detext + System.lineSeparator();
+	    }
+
+	    //Catches unswitched chars
+	    if(switched == 0){
+		detext += originalText.charAt(p);
+	    }
+
+	}//ends the wrapping for loop
+
+	modifiedText = detext;
+    }
+    
+    /*public static void decrypt(){
+	String detext = "";
+	int switched = 0;
+
+	
+	//for testing purposes
+	System.out.println("shift: " + shift);
+	System.out.println("shiftTempDigits: " + shiftTempDigits);
+	System.out.println("shiftTempSymbols: " + shiftTempSymbols);
+	
+	
+	//cycles through every element of originalText
+	for(int p = 0; p < originalText.length(); p++){
+
+	    //resets the switched checker
+	    switched = 0;
+
+	    //checks if an element should be skipped over
+	    if(skips.contains(originalText.charAt(p))){
+		detext = detext + originalText.charAt(p);
+		switched = 26;
+	    }
+	    
+	    //Returns spaces as spaces
+	    //currently uneeded
+	    //if(originalText.substring(p, p + 1).equals(" ")){
+	    //	etext += " ";
+	    //}
+
+	    //Cycles through the alphabet arrays replacing each letter in the
+	    //text file
+	    //lowercase letters
+	    for(int i = 0; (i + switched) < 26; i++){
+	    	    
+		if(originalText.charAt(p) == (alphabet[i])){
+		    tempa = alphabet[(i + shift) % 26];
+
+		    for(int x = 0; x < skips.size(); x++){
+			
+			if(tempa == skips.get(x)){
+			    countera = countera + 1;
+			    tempa = alphabet[(i + shift + countera) % 26];
+			}
+		    }
+		    
+		    detext = detext + tempa;
+		    switched = 26;
+		}
+	    }
+	    
+	    //uppercase letters
+	    for(int i = 0; (i + switched) < 26; i++){
+
+		if(originalText.charAt(p) == (ALPHABET[i])){
+		    tempA = ALPHABET[(i + shift) % 26];
+
+		    for(int x = 0; x < skips.size(); x++){
+			
+			if(tempA == skips.get(x)){
+			    counterA = counterA + 1;
+			    tempA = ALPHABET[(i + shift + counterA) % 26];
+			}
+		    }
+		    
+		    detext = detext + tempA;
+		    detext += ALPHABET[(i + (26 - shift)) % 26];
+		    switched = 26;
+		}
+	    }
+
+	    //digits
+	    if(swapDigits && (switched != 26)){
+	        for(int i = 0; i < 10; i++){
+		    if(originalText.charAt(p) == (digit[i])){
 			tempd = digit[(i + shift) % 10];
 
 			for(int x = 0; x < skips.size(); x++){
@@ -403,8 +686,7 @@ public class Cipher/*extends Implementation*/{
 	for(int p = 0; p < originalText.length(); p++){
 	    
 	}
-    }
-
+	}*/
     
-    //ENDS CLASS    
+    //ENDS CLASS
 }
